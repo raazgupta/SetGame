@@ -12,6 +12,8 @@
 		AD14C004209A71B8001B8CF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD14C002209A71B8001B8CF0 /* Main.storyboard */; };
 		AD14C006209A71B8001B8CF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD14C005209A71B8001B8CF0 /* Assets.xcassets */; };
 		AD14C009209A71B8001B8CF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD14C007209A71B8001B8CF0 /* LaunchScreen.storyboard */; };
+		AD14C012209A83B1001B8CF0 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD14C011209A83B1001B8CF0 /* Card.swift */; };
+		AD14C014209A8524001B8CF0 /* SetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD14C013209A8524001B8CF0 /* SetModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		AD14C005209A71B8001B8CF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD14C008209A71B8001B8CF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AD14C00A209A71B8001B8CF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD14C011209A83B1001B8CF0 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		AD14C013209A8524001B8CF0 /* SetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				AD14C000209A71B8001B8CF0 /* ViewController.swift */,
 				AD14C002209A71B8001B8CF0 /* Main.storyboard */,
+				AD14C011209A83B1001B8CF0 /* Card.swift */,
+				AD14C013209A8524001B8CF0 /* SetModel.swift */,
 				AD14C00A209A71B8001B8CF0 /* Info.plist */,
 				AD14C010209A71FC001B8CF0 /* Supporting files */,
 			);
@@ -145,6 +151,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD14C001209A71B8001B8CF0 /* ViewController.swift in Sources */,
+				AD14C012209A83B1001B8CF0 /* Card.swift in Sources */,
+				AD14C014209A8524001B8CF0 /* SetModel.swift in Sources */,
 				AD14BFFF209A71B8001B8CF0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
