@@ -9,7 +9,7 @@
 import Foundation
 
 enum matchStatus {
-    case stillChoosing, noMatch, match
+    case stillChoosing, noMatch, match, gameOver
 }
 
 struct SetModel{
@@ -17,7 +17,7 @@ struct SetModel{
     private var remainingDeck = [Card]()
     private(set) var displayedDeck = [Card]()
     private(set) var selectedCards = [Card]()
-    private var matchedCards = [Card]()
+    private(set) var matchedCards = [Card]()
     private(set) var status = matchStatus.stillChoosing
     
     var remainingCards: Int {
@@ -35,11 +35,70 @@ struct SetModel{
         return true
     }
     
-    private func isMatch(checkMatch: ()->Bool) -> Bool {
-        return checkMatch()
+    func isAllSame<T: Equatable>(type: T.Type, a: Any, b: Any, c:Any) -> Bool {
+        guard let a = a as? T, let b = b as? T, let c = c as? T else { return false }
+        return (a == b && b == c && a == c)
     }
     
+    func isAllDifferent<T: Equatable>(type: T.Type, a: Any, b: Any, c:Any) -> Bool {
+        guard let a = a as? T, let b = b as? T, let c = c as? T else { return false }
+        return (a != b && b != c && a != c)
+    }
+    
+    
+    private func checkForMatch(card1: Card, card2: Card, card3: Card) -> Bool {
+        var matchResult = false
+
+        // Check number
+        if isAllSame(type: CardNumber.self, a: card1.number, b: card2.number, c: card3.number) || isAllDifferent(type: CardNumber.self, a: card1.number, b: card2.number, c: card3.number) {
+            
+            // Check symbol
+            if isAllSame(type: CardSymbol.self, a: card1.symbol, b: card2.symbol, c: card3.symbol) || isAllDifferent(type: CardSymbol.self, a: card1.symbol, b: card2.symbol, c: card3.symbol) {
+            
+                // Check shading
+                if isAllSame(type: CardShading.self, a: card1.shading, b: card2.shading, c: card3.shading) || isAllDifferent(type: CardShading.self, a: card1.shading, b: card2.shading, c: card3.shading) {
+                    
+                    // Check color
+                    if isAllSame(type: CardColor.self, a: card1.color, b: card2.color, c: card3.color) || isAllDifferent(type: CardColor.self, a: card1.color, b: card2.color, c: card3.color) {
+                        
+                        matchResult = true
+                        
+                    }
+                    
+                }
+                
+            }
+        
+        }
+        
+        return matchResult
+    }
+    
+    private func isMatch(checkMatch: @escaping (Card,Card,Card)->Bool) -> (Card,Card,Card)->Bool {
+        return checkMatch
+    }
+    
+    private func findMatchInDisplayedDeck () -> ([(Card)],Bool) {
+        
+        for card1 in displayedDeck {
+            var remainingDeck1 = displayedDeck
+            remainingDeck1.remove(at: remainingDeck1.index(of: card1)!)
+            for card2 in remainingDeck1 {
+                var remainingDeck2 = remainingDeck1
+                remainingDeck2.remove(at: remainingDeck2.index(of: card2)!)
+                for card3 in remainingDeck2 {
+                    if checkForMatch(card1: card1, card2: card2, card3: card3) {
+                        return ([card1,card2,card3],true)
+                    }
+                }
+            }
+        }
+        return ([],false)
+    }
+    
+    
     mutating func touchCard(displayDeckIndex: Int) {
+        
         if displayDeckIndex < displayedDeck.count {
             let cardTouched = displayedDeck[displayDeckIndex]
             if selectedCards.contains(cardTouched) {
@@ -68,6 +127,7 @@ struct SetModel{
                     }
                     selectedCards = [Card]()
                     status = matchStatus.stillChoosing
+                    
                 }
                 
                 selectedCards.append(cardTouched)
@@ -76,7 +136,7 @@ struct SetModel{
                 // If it does determine if the cards Match or Not
                 
                 if selectedCards.count == 3 {
-                    if isMatch(checkMatch: checkForMatchEasy) {
+                    if checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
                         status = matchStatus.match
                     }
                     else {
@@ -84,6 +144,23 @@ struct SetModel{
                     }
                 }
                 
+            }
+        }
+        
+        checkForGameOverState()
+        
+    }
+    
+    mutating func checkForGameOverState() {
+        // Are there any remaining cards in displayedDeck that can match. If not, indicate to player that game over
+        let (remainingMatch, matchAvailable) = findMatchInDisplayedDeck()
+        if matchAvailable {
+            print(remainingMatch)
+        }
+        else {
+            print("Match Available: \(matchAvailable)")
+            if remainingDeck.count == 0 {
+                status = matchStatus.gameOver
             }
         }
     }
@@ -110,6 +187,7 @@ struct SetModel{
             selectedCards = [Card]()
             status = matchStatus.stillChoosing
         }
+        checkForGameOverState()
     }
     
     init(showCards: Int) {

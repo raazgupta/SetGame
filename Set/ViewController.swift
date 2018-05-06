@@ -89,6 +89,9 @@ class ViewController: UIViewController {
         
         while buttonIndex < totalNumCardsOnScreen {
             cardButtons[buttonIndex].setAttributedTitle(nil, for: UIControlState.normal)
+            cardButtons[buttonIndex].layer.borderWidth = 0.0
+            cardButtons[buttonIndex].layer.borderColor = UIColor.clear.cgColor
+            cardButtons[buttonIndex].layer.cornerRadius = 0.0
             buttonIndex += 1
         }
         
@@ -110,6 +113,7 @@ class ViewController: UIViewController {
         case .stillChoosing: matchLabel.text = nil
         case .noMatch: matchLabel.text = "No Match 🧐"
         case .match: matchLabel.text = "Match! 🤪"
+        case .gameOver: matchLabel.text = "All Done! 👻"
         }
         
         // Set number of remaining cards
