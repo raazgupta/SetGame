@@ -8,15 +8,109 @@
 
 import Foundation
 
+enum matchStatus {
+    case stillChoosing, noMatch, match
+}
+
 struct SetModel{
     
-    var remainingDeck = [Card]()
-    var displayedDeck = [Card]()
-    var selectedDeck = [Card]()
+    private var remainingDeck = [Card]()
+    private(set) var displayedDeck = [Card]()
+    private(set) var selectedCards = [Card]()
+    private var matchedCards = [Card]()
+    private(set) var status = matchStatus.stillChoosing
+    
+    var remainingCards: Int {
+        get {
+            return remainingDeck.count
+        }
+    }
+    
     private let numbers = [CardNumber.one,CardNumber.two,CardNumber.three]
     private let symbols = [CardSymbol.diamond,CardSymbol.oval,CardSymbol.squiggle]
     private let shadings = [CardShading.open,CardShading.solid,CardShading.striped]
     private let colors = [CardColor.green,CardColor.purple,CardColor.red]
+    
+    private func checkForMatchEasy() -> Bool {
+        return true
+    }
+    
+    private func isMatch(checkMatch: ()->Bool) -> Bool {
+        return checkMatch()
+    }
+    
+    mutating func touchCard(displayDeckIndex: Int) {
+        if displayDeckIndex < displayedDeck.count {
+            let cardTouched = displayedDeck[displayDeckIndex]
+            if selectedCards.contains(cardTouched) {
+                
+                if selectedCards.count == 3 && status == .match {
+                    drawThreeCards()
+                    selectedCards = [Card]()
+                }
+                else if selectedCards.count == 3 && status == .noMatch {
+                    selectedCards = [Card]()
+                }
+                else {
+                    selectedCards.remove(at: selectedCards.index(of: cardTouched)!)
+                }
+                
+                status = matchStatus.stillChoosing
+            }
+            else {
+                
+                // Check if selected cards contains 3 cards
+                // If it does clear the cards and create fresh list of selected cards
+                
+                if selectedCards.count == 3 {
+                    if status == matchStatus.match {
+                        drawThreeCards()
+                    }
+                    selectedCards = [Card]()
+                    status = matchStatus.stillChoosing
+                }
+                
+                selectedCards.append(cardTouched)
+                
+                // Check if selected cards contains 3 cards
+                // If it does determine if the cards Match or Not
+                
+                if selectedCards.count == 3 {
+                    if isMatch(checkMatch: checkForMatchEasy) {
+                        status = matchStatus.match
+                    }
+                    else {
+                        status = matchStatus.noMatch
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    mutating func drawThreeCards() {
+        if status != matchStatus.match {
+            for _ in 1...3 {
+                if remainingDeck.count > 0 {
+                    let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
+                    displayedDeck.append(cardToShow)
+                }
+            }
+        }
+        else {
+            for card in selectedCards {
+                let displayIndex = displayedDeck.index(of: card)
+                let matchedCard = displayedDeck.remove(at: displayIndex!)
+                matchedCards.append(matchedCard)
+                if remainingDeck.count > 0 {
+                    let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
+                    displayedDeck.insert(cardToShow, at: displayIndex!)
+                }
+            }
+            selectedCards = [Card]()
+            status = matchStatus.stillChoosing
+        }
+    }
     
     init(showCards: Int) {
         // Create deck of 81 cards

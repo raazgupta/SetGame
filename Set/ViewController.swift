@@ -11,13 +11,18 @@ import UIKit
 class ViewController: UIViewController {
 
     private var setGame: SetModel?
-    private let numShowCards = 24
-    
+    private let initialNumCardsOnScreen = 12
+    private var currentNumCardsOnScreen = 12
+    private let totalNumCardsOnScreen = 24
     
     @IBOutlet var cardButtons: [UIButton]!
     
+    @IBOutlet weak var matchLabel: UILabel!
+    
+    @IBOutlet weak var remainingCards: UILabel!
+    
     override func viewDidLoad() {
-        setGame = SetModel(showCards: numShowCards)
+        setGame = SetModel(showCards: initialNumCardsOnScreen)
         updateViewFromModel()
     }
     
@@ -26,6 +31,7 @@ class ViewController: UIViewController {
         
         let displayedDeck = (setGame?.displayedDeck)!
         
+        // Update button titles with cards in display deck
         var buttonIndex = 0
         for card in displayedDeck {
             
@@ -74,14 +80,66 @@ class ViewController: UIViewController {
             
             cardButtons[buttonIndex].setAttributedTitle(attributedString, for: UIControlState.normal)
             
+            cardButtons[buttonIndex].layer.borderWidth = 0.0
+            cardButtons[buttonIndex].layer.borderColor = UIColor.clear.cgColor
+            cardButtons[buttonIndex].layer.cornerRadius = 0.0
+            
             buttonIndex += 1
+        }
+        
+        while buttonIndex < totalNumCardsOnScreen {
+            cardButtons[buttonIndex].setAttributedTitle(nil, for: UIControlState.normal)
+            buttonIndex += 1
+        }
+        
+        // Update button border, color, rounding for selected cards
+        let selectedDeck = (setGame?.selectedCards)!
+        for card in selectedDeck {
+            if displayedDeck.contains(card) {
+                let displayDeckIndex = displayedDeck.index(of: card)
+                let selectedButton = cardButtons[displayDeckIndex!]
+                selectedButton.layer.borderWidth = 3.0
+                selectedButton.layer.borderColor = UIColor.blue.cgColor
+                selectedButton.layer.cornerRadius = 8.0
+                
+            }
+        }
+        
+        // Update match status label
+        switch (setGame?.status)! {
+        case .stillChoosing: matchLabel.text = nil
+        case .noMatch: matchLabel.text = "No Match 🧐"
+        case .match: matchLabel.text = "Match! 🤪"
+        }
+        
+        // Set number of remaining cards
+        remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
+        
+    }
+    
+    
+    @IBAction func drawCards(_ sender: UIButton) {
+        if (setGame?.status)! == matchStatus.match {
+            setGame?.drawThreeCards()
+            updateViewFromModel()
+        }
+        else if currentNumCardsOnScreen < totalNumCardsOnScreen {
+            currentNumCardsOnScreen += 3
+            setGame?.drawThreeCards()
+            updateViewFromModel()
+        }
+        
+    }
+    
+    @IBAction func touchCard(_ sender: UIButton) {
+        if cardButtons.contains(sender){
+            let buttonIndex = cardButtons.index(of: sender)
+            setGame?.touchCard(displayDeckIndex: buttonIndex!)
+            updateViewFromModel()
         }
     }
     
     
-    @IBAction func checkArray(_ sender: Any) {
-        let displayedDeck = (setGame?.displayedDeck)!
-    }
     
 }
 

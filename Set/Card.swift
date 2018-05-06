@@ -30,3 +30,9 @@ struct Card {
     var shading: CardShading
     var color: CardColor
 }
+
+extension Card: Equatable {
+    static func == (lhs:Card,rhs:Card) -> Bool {
+        return lhs.color == rhs.color && lhs.number == rhs.number && lhs.shading == rhs.shading && lhs.symbol == rhs.symbol
+    }
+}
