@@ -12,13 +12,14 @@ enum matchStatus {
     case stillChoosing, noMatch, match, gameOver
 }
 
-struct SetModel{
+class SetModel{
     
     private var remainingDeck = [Card]()
     private(set) var displayedDeck = [Card]()
     private(set) var selectedCards = [Card]()
     private(set) var matchedCards = [Card]()
     private(set) var status = matchStatus.stillChoosing
+    private(set) var score = 0
     
     var remainingCards: Int {
         get {
@@ -31,9 +32,7 @@ struct SetModel{
     private let shadings = [CardShading.open,CardShading.solid,CardShading.striped]
     private let colors = [CardColor.green,CardColor.purple,CardColor.red]
     
-    private func checkForMatchEasy() -> Bool {
-        return true
-    }
+
     
     func isAllSame<T: Equatable>(type: T.Type, a: Any, b: Any, c:Any) -> Bool {
         guard let a = a as? T, let b = b as? T, let c = c as? T else { return false }
@@ -45,6 +44,10 @@ struct SetModel{
         return (a != b && b != c && a != c)
     }
     
+
+    private func checkForMatchEasy(card1: Card, card2: Card, card3: Card) -> Bool {
+        return true
+    }
     
     private func checkForMatch(card1: Card, card2: Card, card3: Card) -> Bool {
         var matchResult = false
@@ -74,9 +77,6 @@ struct SetModel{
         return matchResult
     }
     
-    private func isMatch(checkMatch: @escaping (Card,Card,Card)->Bool) -> (Card,Card,Card)->Bool {
-        return checkMatch
-    }
     
     private func findMatchInDisplayedDeck () -> ([(Card)],Bool) {
         
@@ -96,8 +96,15 @@ struct SetModel{
         return ([],false)
     }
     
+    private func showMatchForBeginners () {
+        let (matchedCards,matchAvailable) = findMatchInDisplayedDeck()
+        if matchAvailable {
+            selectedCards = matchedCards
+        }
+    }
     
-    mutating func touchCard(displayDeckIndex: Int) {
+    
+    func touchCard(displayDeckIndex: Int) {
         
         if displayDeckIndex < displayedDeck.count {
             let cardTouched = displayedDeck[displayDeckIndex]
@@ -138,6 +145,7 @@ struct SetModel{
                 if selectedCards.count == 3 {
                     if checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
                         status = matchStatus.match
+                        score += 1
                     }
                     else {
                         status = matchStatus.noMatch
@@ -151,7 +159,7 @@ struct SetModel{
         
     }
     
-    mutating func checkForGameOverState() {
+    func checkForGameOverState() {
         // Are there any remaining cards in displayedDeck that can match. If not, indicate to player that game over
         let (remainingMatch, matchAvailable) = findMatchInDisplayedDeck()
         if matchAvailable {
@@ -165,7 +173,7 @@ struct SetModel{
         }
     }
     
-    mutating func drawThreeCards() {
+    func drawThreeCards() {
         if status != matchStatus.match {
             for _ in 1...3 {
                 if remainingDeck.count > 0 {

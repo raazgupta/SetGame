@@ -21,6 +21,19 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var remainingCards: UILabel!
     
+    @IBOutlet weak var drawCards: UIButton!
+    
+    @IBOutlet weak var scoreLabel: UILabel!
+    
+    @IBAction func newGame(_ sender: UIButton) {
+        setGame = SetModel(showCards: initialNumCardsOnScreen)
+        updateViewFromModel()
+        currentNumCardsOnScreen = initialNumCardsOnScreen
+        drawCards.isEnabled = true
+        drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
+    }
+    
+    
     override func viewDidLoad() {
         setGame = SetModel(showCards: initialNumCardsOnScreen)
         updateViewFromModel()
@@ -83,6 +96,7 @@ class ViewController: UIViewController {
             cardButtons[buttonIndex].layer.borderWidth = 0.0
             cardButtons[buttonIndex].layer.borderColor = UIColor.clear.cgColor
             cardButtons[buttonIndex].layer.cornerRadius = 0.0
+            cardButtons[buttonIndex].backgroundColor = #colorLiteral(red: 0.8591197133, green: 0.6999493241, blue: 0.3175812066, alpha: 1)
             
             buttonIndex += 1
         }
@@ -92,6 +106,7 @@ class ViewController: UIViewController {
             cardButtons[buttonIndex].layer.borderWidth = 0.0
             cardButtons[buttonIndex].layer.borderColor = UIColor.clear.cgColor
             cardButtons[buttonIndex].layer.cornerRadius = 0.0
+            cardButtons[buttonIndex].backgroundColor = #colorLiteral(red: 0.2237586379, green: 0.8140939474, blue: 0.5857403874, alpha: 1)
             buttonIndex += 1
         }
         
@@ -110,7 +125,7 @@ class ViewController: UIViewController {
         
         // Update match status label
         switch (setGame?.status)! {
-        case .stillChoosing: matchLabel.text = nil
+        case .stillChoosing: matchLabel.text = " "
         case .noMatch: matchLabel.text = "No Match 🧐"
         case .match: matchLabel.text = "Match! 🤪"
         case .gameOver: matchLabel.text = "All Done! 👻"
@@ -118,6 +133,19 @@ class ViewController: UIViewController {
         
         // Set number of remaining cards
         remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
+        
+        // Determine if Draw 3 cards button is enabled or disabled
+        if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.status)! == matchStatus.match) {
+            drawCards.isEnabled = true
+            drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
+        }
+        else {
+            drawCards.isEnabled = false
+            drawCards.setTitle(nil, for: UIControlState.normal)
+        }
+        
+        // Update the score label
+        scoreLabel.text = "Score: \(setGame?.score ?? 0)"
         
     }
     
