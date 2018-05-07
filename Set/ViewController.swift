@@ -11,8 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 
     private var setGame: SetModel?
-    private let initialNumCardsOnScreen = 12
-    private var currentNumCardsOnScreen = 12
+    private let initialNumCardsOnScreen = 24
+    private var currentNumCardsOnScreen = 24
     private let totalNumCardsOnScreen = 24
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -24,6 +24,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var drawCards: UIButton!
     
     @IBOutlet weak var scoreLabel: UILabel!
+    
+    @IBOutlet weak var aiSwitch: UISwitch!
+    
     
     @IBAction func enableAI(_ sender: UISwitch) {
         if sender.isOn {
@@ -40,11 +43,13 @@ class ViewController: UIViewController {
         currentNumCardsOnScreen = initialNumCardsOnScreen
         drawCards.isEnabled = true
         drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
+        aiSwitch.setOn(false, animated: true)
     }
     
     
     override func viewDidLoad() {
         setGame = SetModel(showCards: initialNumCardsOnScreen)
+        Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true, block: { _ in (_ = self.setGame?.isMatchAvailable())})
         Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true, block: {_ in self.updateViewFromModel()})
     }
     
@@ -159,7 +164,12 @@ class ViewController: UIViewController {
          */
         
         // Update the score label
-        scoreLabel.text = "Score: \(setGame?.score ?? 0)"
+        if aiSwitch.isOn {
+            scoreLabel.text = "You: \(setGame?.score ?? 0)  Me: \(setGame?.machineScore ?? 0)"
+        }
+        else {
+            scoreLabel.text = "Cards Matched: \(setGame?.score ?? 0)"
+        }
         
     }
     

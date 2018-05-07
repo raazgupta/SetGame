@@ -20,9 +20,15 @@ class SetModel{
     private(set) var matchedCards = [Card]()
     private(set) var status = matchStatus.stillChoosing
     private(set) var score = 0
+    private(set) var machineScore = 0
     private var machineSearchingTimer: Timer?
+    private var machineSearchTimerSeconds = 30.0
     private var almostFoundTimer: Timer?
+    private var almostFoundTimerSeconds = 10.0
     private var clearMachineMatchTimer: Timer?
+    private var clearMachineMatchTimerSeconds = 5.0
+    private var afterUserMatchTimer: Timer?
+    private var afterUserMatchTimerSeconds = 3.0
     private var isAIEnabled = false
     
     var remainingCards: Int {
@@ -104,20 +110,21 @@ class SetModel{
     func enableAI() {
         isAIEnabled = true
         status = .machineChoosing
-        machineSearchingTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in self.AIAlmostFound()})
+        machineSearchingTimer = Timer.scheduledTimer(withTimeInterval: machineSearchTimerSeconds, repeats: false, block: {_ in self.AIAlmostFound()})
     }
     
     private func AIAlmostFound() {
         status = .almostFound
-        almostFoundTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false, block: {_ in self.machineMatch()})
+        almostFoundTimer = Timer.scheduledTimer(withTimeInterval: almostFoundTimerSeconds, repeats: false, block: {_ in self.machineMatch()})
     }
     
     private func machineMatch() {
         status = .machineMatch
+        machineScore += 1
         var (foundMatch,isMatchAvailable) = findMatchInDisplayedDeck()
         if isMatchAvailable {
             selectedCards = [foundMatch[0],foundMatch[1],foundMatch[2]]
-            clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: {_ in self.clearMachineMatch()})
+            clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: clearMachineMatchTimerSeconds, repeats: false, block: {_ in self.clearMachineMatch()})
         }
     }
     
@@ -136,6 +143,7 @@ class SetModel{
         machineSearchingTimer?.invalidate()
         almostFoundTimer?.invalidate()
         clearMachineMatchTimer?.invalidate()
+        afterUserMatchTimer?.invalidate()
         isAIEnabled = false
     }
     
@@ -192,6 +200,15 @@ class SetModel{
                         if checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
                             status = matchStatus.match
                             score += 1
+                            
+                            if isAIEnabled {
+                                machineSearchingTimer?.invalidate()
+                                almostFoundTimer?.invalidate()
+                                clearMachineMatchTimer?.invalidate()
+                                
+                                afterUserMatchTimer = Timer.scheduledTimer(withTimeInterval: afterUserMatchTimerSeconds, repeats: false, block: {_ in self.enableAI()})
+                            }
+                            
                         }
                         else {
                             status = matchStatus.noMatch
@@ -207,15 +224,16 @@ class SetModel{
     
     func isMatchAvailable() -> Bool {
         // Are there any remaining cards in displayedDeck that can match. If not, indicate to player that game over
-        let (remainingMatch, matchAvailable) = findMatchInDisplayedDeck()
-        if matchAvailable {
-            print(remainingMatch)
-        }
-        else {
-            print("Match Available: \(matchAvailable)")
-            if remainingDeck.count == 0 {
-                status = matchStatus.gameOver
-            }
+        let (_, matchAvailable) = findMatchInDisplayedDeck()
+
+        if matchAvailable == false {
+            status = matchStatus.gameOver
+            
+            machineSearchingTimer?.invalidate()
+            almostFoundTimer?.invalidate()
+            clearMachineMatchTimer?.invalidate()
+            afterUserMatchTimer?.invalidate()
+            
         }
         return matchAvailable
     }

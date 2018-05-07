@@ -402,6 +402,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="aiSwitch" destination="cwt-g9-OUF" id="YnH-KW-3v7"/>
                         <outlet property="drawCards" destination="hrI-WG-90t" id="25r-0q-mDy"/>
                         <outlet property="matchLabel" destination="IWJ-GG-hCk" id="qWr-BI-H9Y"/>
                         <outlet property="remainingCards" destination="faX-yb-Evd" id="8dR-VY-Xds"/>
