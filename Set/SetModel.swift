@@ -9,7 +9,7 @@
 import Foundation
 
 enum matchStatus {
-    case stillChoosing, noMatch, match, gameOver
+    case stillChoosing, noMatch, match, gameOver, machineChoosing, almostFound, machineMatch
 }
 
 class SetModel{
@@ -20,6 +20,10 @@ class SetModel{
     private(set) var matchedCards = [Card]()
     private(set) var status = matchStatus.stillChoosing
     private(set) var score = 0
+    private var machineSearchingTimer: Timer?
+    private var almostFoundTimer: Timer?
+    private var clearMachineMatchTimer: Timer?
+    private var isAIEnabled = false
     
     var remainingCards: Int {
         get {
@@ -96,6 +100,47 @@ class SetModel{
         return ([],false)
     }
     
+    // "AI" functionality
+    func enableAI() {
+        isAIEnabled = true
+        status = .machineChoosing
+        machineSearchingTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in self.AIAlmostFound()})
+    }
+    
+    private func AIAlmostFound() {
+        status = .almostFound
+        almostFoundTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false, block: {_ in self.machineMatch()})
+    }
+    
+    private func machineMatch() {
+        status = .machineMatch
+        var (foundMatch,isMatchAvailable) = findMatchInDisplayedDeck()
+        if isMatchAvailable {
+            selectedCards = [foundMatch[0],foundMatch[1],foundMatch[2]]
+            clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: {_ in self.clearMachineMatch()})
+        }
+    }
+    
+    private func clearMachineMatch() {
+        drawThreeCards()
+        selectedCards = [Card]()
+        if isMatchAvailable() {
+            enableAI()
+        }
+    }
+    
+    func disableAI() {
+        if status == .machineChoosing || status == .almostFound || status == .machineMatch {
+            status = .stillChoosing
+        }
+        machineSearchingTimer?.invalidate()
+        almostFoundTimer?.invalidate()
+        clearMachineMatchTimer?.invalidate()
+        isAIEnabled = false
+    }
+    
+    // End of "AI" functionality
+    
     private func showMatchForBeginners () {
         let (matchedCards,matchAvailable) = findMatchInDisplayedDeck()
         if matchAvailable {
@@ -106,60 +151,61 @@ class SetModel{
     
     func touchCard(displayDeckIndex: Int) {
         
-        if displayDeckIndex < displayedDeck.count {
-            let cardTouched = displayedDeck[displayDeckIndex]
-            if selectedCards.contains(cardTouched) {
-                
-                if selectedCards.count == 3 && status == .match {
-                    drawThreeCards()
-                    selectedCards = [Card]()
-                }
-                else if selectedCards.count == 3 && status == .noMatch {
-                    selectedCards = [Card]()
-                }
-                else {
-                    selectedCards.remove(at: selectedCards.index(of: cardTouched)!)
-                }
-                
-                status = matchStatus.stillChoosing
-            }
-            else {
-                
-                // Check if selected cards contains 3 cards
-                // If it does clear the cards and create fresh list of selected cards
-                
-                if selectedCards.count == 3 {
-                    if status == matchStatus.match {
-                        drawThreeCards()
-                    }
-                    selectedCards = [Card]()
-                    status = matchStatus.stillChoosing
+        if status != .machineMatch {
+            if displayDeckIndex < displayedDeck.count {
+                let cardTouched = displayedDeck[displayDeckIndex]
+                if selectedCards.contains(cardTouched) {
                     
-                }
-                
-                selectedCards.append(cardTouched)
-                
-                // Check if selected cards contains 3 cards
-                // If it does determine if the cards Match or Not
-                
-                if selectedCards.count == 3 {
-                    if checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
-                        status = matchStatus.match
-                        score += 1
+                    if selectedCards.count == 3 && status == .match {
+                        drawThreeCards()
+                        selectedCards = [Card]()
+                    }
+                    else if selectedCards.count == 3 && status == .noMatch {
+                        selectedCards = [Card]()
                     }
                     else {
-                        status = matchStatus.noMatch
+                        selectedCards.remove(at: selectedCards.index(of: cardTouched)!)
                     }
+                    
+                    status = matchStatus.stillChoosing
                 }
-                
+                else {
+                    
+                    // Check if selected cards contains 3 cards
+                    // If it does clear the cards and create fresh list of selected cards
+                    
+                    if selectedCards.count == 3 {
+                        if checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
+                            drawThreeCards()
+                        }
+                        selectedCards = [Card]()
+                        status = matchStatus.stillChoosing
+                        
+                    }
+                    
+                    selectedCards.append(cardTouched)
+                    
+                    // Check if selected cards contains 3 cards
+                    // If it does determine if the cards Match or Not
+                    
+                    if selectedCards.count == 3 {
+                        if checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
+                            status = matchStatus.match
+                            score += 1
+                        }
+                        else {
+                            status = matchStatus.noMatch
+                        }
+                    }
+                    
+                }
             }
         }
-        
-        checkForGameOverState()
+        _ = isMatchAvailable()
         
     }
     
-    func checkForGameOverState() {
+    func isMatchAvailable() -> Bool {
         // Are there any remaining cards in displayedDeck that can match. If not, indicate to player that game over
         let (remainingMatch, matchAvailable) = findMatchInDisplayedDeck()
         if matchAvailable {
@@ -171,18 +217,11 @@ class SetModel{
                 status = matchStatus.gameOver
             }
         }
+        return matchAvailable
     }
     
     func drawThreeCards() {
-        if status != matchStatus.match {
-            for _ in 1...3 {
-                if remainingDeck.count > 0 {
-                    let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
-                    displayedDeck.append(cardToShow)
-                }
-            }
-        }
-        else {
+        if selectedCards.count == 3 && checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) == true {
             for card in selectedCards {
                 let displayIndex = displayedDeck.index(of: card)
                 let matchedCard = displayedDeck.remove(at: displayIndex!)
@@ -193,9 +232,24 @@ class SetModel{
                 }
             }
             selectedCards = [Card]()
-            status = matchStatus.stillChoosing
+            
+            if isAIEnabled {
+                status = .machineChoosing
+            }
+            else {
+                status = .stillChoosing
+            }
         }
-        checkForGameOverState()
+        else {
+            for _ in 1...3 {
+                if remainingDeck.count > 0 {
+                    let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
+                    displayedDeck.append(cardToShow)
+                }
+            }
+        }
+
+        _ = isMatchAvailable()
     }
     
     init(showCards: Int) {

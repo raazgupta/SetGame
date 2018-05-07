@@ -31,8 +31,11 @@
                                                 <color key="textColor" red="0.58081901069999997" green="0.088427625600000004" blue="0.31863921880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cwt-g9-OUF">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cwt-g9-OUF">
                                                 <rect key="frame" x="294" y="0.0" width="51" height="51.5"/>
+                                                <connections>
+                                                    <action selector="enableAI:" destination="BYZ-38-t0r" eventType="valueChanged" id="AuD-ex-18d"/>
+                                                </connections>
                                             </switch>
                                         </subviews>
                                     </stackView>

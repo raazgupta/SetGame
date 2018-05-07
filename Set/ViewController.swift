@@ -25,6 +25,15 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var scoreLabel: UILabel!
     
+    @IBAction func enableAI(_ sender: UISwitch) {
+        if sender.isOn {
+            setGame?.enableAI()
+        }
+        else {
+            setGame?.disableAI()
+        }
+    }
+    
     @IBAction func newGame(_ sender: UIButton) {
         setGame = SetModel(showCards: initialNumCardsOnScreen)
         updateViewFromModel()
@@ -36,7 +45,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         setGame = SetModel(showCards: initialNumCardsOnScreen)
-        updateViewFromModel()
+        Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true, block: {_ in self.updateViewFromModel()})
     }
     
     private func updateViewFromModel() {
@@ -129,12 +138,16 @@ class ViewController: UIViewController {
         case .noMatch: matchLabel.text = "No Match 🧐"
         case .match: matchLabel.text = "Match! 🤪"
         case .gameOver: matchLabel.text = "All Done! 👻"
+        case .machineChoosing: matchLabel.text = "I'm thinking 🧐"
+        case .almostFound: matchLabel.text = "Think I Found Something 🤓"
+        case .machineMatch: matchLabel.text = "I matched! 🤑"
         }
         
         // Set number of remaining cards
         remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
         
         // Determine if Draw 3 cards button is enabled or disabled
+        /*
         if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.status)! == matchStatus.match) {
             drawCards.isEnabled = true
             drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
@@ -143,6 +156,7 @@ class ViewController: UIViewController {
             drawCards.isEnabled = false
             drawCards.setTitle(nil, for: UIControlState.normal)
         }
+         */
         
         // Update the score label
         scoreLabel.text = "Score: \(setGame?.score ?? 0)"
