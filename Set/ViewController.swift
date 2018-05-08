@@ -11,8 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 
     private var setGame: SetModel?
-    private let initialNumCardsOnScreen = 12
-    private var currentNumCardsOnScreen = 12
+    private let initialNumCardsOnScreen = 24
+    private var currentNumCardsOnScreen = 24
     private let totalNumCardsOnScreen = 24
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -163,7 +163,8 @@ class ViewController: UIViewController {
         remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
         
         // Determine if Draw 3 cards button is enabled or disabled
-        
+        // Changed to just a simple submit button as Draw 3 cards button enabling/disabling unintuitive for the user
+        /*
         if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {
             drawCards.isEnabled = true
             drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
@@ -172,6 +173,7 @@ class ViewController: UIViewController {
             drawCards.isEnabled = false
             drawCards.setTitle(nil, for: UIControlState.normal)
         }
+        */
         
         
         // Update the score label
@@ -185,15 +187,22 @@ class ViewController: UIViewController {
         // Check if match available and update game over state if no match available
         _ = setGame?.isMatchAvailable()
         
+        // Update number of cards on screen
+        currentNumCardsOnScreen = (setGame?.displayedDeck.count)!
+        
     }
     
     
     @IBAction func drawCards(_ sender: UIButton) {
-        if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {
+        /* if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {
             setGame?.drawThreeCards()
-            currentNumCardsOnScreen += 3
             updateViewFromModel()
-        }
+        }*/
+        
+        // Use as simple submit button instead
+        setGame?.drawThreeCards()
+        updateViewFromModel()
+        
     }
     
     @IBAction func touchCard(_ sender: UIButton) {

@@ -26,7 +26,7 @@ class SetModel{
     private var almostFoundTimer: Timer?
     private var almostFoundTimerSeconds = 10.0
     private var clearMachineMatchTimer: Timer?
-    private var clearMachineMatchTimerSeconds = 5.0
+    private var clearMachineMatchTimerSeconds = 3.0
     private var afterUserMatchTimer: Timer?
     private var afterUserMatchTimerSeconds = 5.0
     private var isAIEnabled = false
