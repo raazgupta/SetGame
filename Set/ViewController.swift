@@ -189,8 +189,11 @@ class ViewController: UIViewController {
     
     
     @IBAction func drawCards(_ sender: UIButton) {
-        setGame?.drawThreeCards()
-        updateViewFromModel()
+        if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {
+            setGame?.drawThreeCards()
+            currentNumCardsOnScreen += 3
+            updateViewFromModel()
+        }
     }
     
     @IBAction func touchCard(_ sender: UIButton) {
