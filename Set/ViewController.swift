@@ -11,8 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 
     private var setGame: SetModel?
-    private let initialNumCardsOnScreen = 24
-    private var currentNumCardsOnScreen = 24
+    private let initialNumCardsOnScreen = 12
+    private var currentNumCardsOnScreen = 12
     private let totalNumCardsOnScreen = 24
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -36,6 +36,17 @@ class ViewController: UIViewController {
             setGame?.disableAI()
         }
     }
+    @IBOutlet weak var hardMode: UISwitch!
+    
+    @IBAction func enableHardMode(_ sender: UISwitch) {
+        if sender.isOn {
+            setGame?.isHardModeEnabled = true
+        }
+        else {
+            setGame?.isHardModeEnabled = false
+        }
+    }
+    
     
     @IBAction func newGame(_ sender: UIButton) {
         setGame = SetModel(showCards: initialNumCardsOnScreen)
@@ -44,13 +55,13 @@ class ViewController: UIViewController {
         drawCards.isEnabled = true
         drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
         aiSwitch.setOn(false, animated: true)
+        hardMode.setOn(false, animated: true)
     }
     
     
     override func viewDidLoad() {
         setGame = SetModel(showCards: initialNumCardsOnScreen)
-        Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true, block: { _ in (_ = self.setGame?.isMatchAvailable())})
-        Timer.scheduledTimer(withTimeInterval: 0.0, repeats: true, block: {_ in self.updateViewFromModel()})
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in self.updateViewFromModel()})
     }
     
     private func updateViewFromModel() {
@@ -144,7 +155,7 @@ class ViewController: UIViewController {
         case .match: matchLabel.text = "Match! 🤪"
         case .gameOver: matchLabel.text = "All Done! 👻"
         case .machineChoosing: matchLabel.text = "I'm thinking 🧐"
-        case .almostFound: matchLabel.text = "Think I Found Something 🤓"
+        case .almostFound: matchLabel.text = "Found Something 🤓"
         case .machineMatch: matchLabel.text = "I matched! 🤑"
         }
         
@@ -152,8 +163,8 @@ class ViewController: UIViewController {
         remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
         
         // Determine if Draw 3 cards button is enabled or disabled
-        /*
-        if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.status)! == matchStatus.match) {
+        
+        if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {
             drawCards.isEnabled = true
             drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
         }
@@ -161,7 +172,7 @@ class ViewController: UIViewController {
             drawCards.isEnabled = false
             drawCards.setTitle(nil, for: UIControlState.normal)
         }
-         */
+        
         
         // Update the score label
         if aiSwitch.isOn {
@@ -171,20 +182,15 @@ class ViewController: UIViewController {
             scoreLabel.text = "Cards Matched: \(setGame?.score ?? 0)"
         }
         
+        // Check if match available and update game over state if no match available
+        _ = setGame?.isMatchAvailable()
+        
     }
     
     
     @IBAction func drawCards(_ sender: UIButton) {
-        if (setGame?.status)! == matchStatus.match {
-            setGame?.drawThreeCards()
-            updateViewFromModel()
-        }
-        else if currentNumCardsOnScreen < totalNumCardsOnScreen {
-            currentNumCardsOnScreen += 3
-            setGame?.drawThreeCards()
-            updateViewFromModel()
-        }
-        
+        setGame?.drawThreeCards()
+        updateViewFromModel()
     }
     
     @IBAction func touchCard(_ sender: UIButton) {

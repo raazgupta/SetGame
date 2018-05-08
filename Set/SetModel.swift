@@ -28,8 +28,9 @@ class SetModel{
     private var clearMachineMatchTimer: Timer?
     private var clearMachineMatchTimerSeconds = 5.0
     private var afterUserMatchTimer: Timer?
-    private var afterUserMatchTimerSeconds = 3.0
+    private var afterUserMatchTimerSeconds = 5.0
     private var isAIEnabled = false
+    var isHardModeEnabled = false
     
     var remainingCards: Int {
         get {
@@ -57,6 +58,15 @@ class SetModel{
 
     private func checkForMatchEasy(card1: Card, card2: Card, card3: Card) -> Bool {
         return true
+    }
+    
+    func checkForMatchOnSelected() -> Bool {
+        if selectedCards.count == 3 {
+            return checkForMatch(card1: selectedCards[0],card2: selectedCards[1],card3: selectedCards[2])
+        }
+        else {
+            return false
+        }
     }
     
     private func checkForMatch(card1: Card, card2: Card, card3: Card) -> Bool {
@@ -106,11 +116,21 @@ class SetModel{
         return ([],false)
     }
     
+    // Make it more of a balaced fight
+    private func balancedFightTime(timeSeconds:Double) -> Double {
+        if score != 0 && isHardModeEnabled {
+            return timeSeconds * Double(machineScore / score)
+        }
+        else {
+            return timeSeconds
+        }
+    }
+    
     // "AI" functionality
     func enableAI() {
         isAIEnabled = true
         status = .machineChoosing
-        machineSearchingTimer = Timer.scheduledTimer(withTimeInterval: machineSearchTimerSeconds, repeats: false, block: {_ in self.AIAlmostFound()})
+        machineSearchingTimer = Timer.scheduledTimer(withTimeInterval: balancedFightTime(timeSeconds: machineSearchTimerSeconds), repeats: false, block: {_ in self.AIAlmostFound()})
     }
     
     private func AIAlmostFound() {
@@ -125,6 +145,9 @@ class SetModel{
         if isMatchAvailable {
             selectedCards = [foundMatch[0],foundMatch[1],foundMatch[2]]
             clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: clearMachineMatchTimerSeconds, repeats: false, block: {_ in self.clearMachineMatch()})
+        }
+        else {
+            enableAI()
         }
     }
     
@@ -175,7 +198,12 @@ class SetModel{
                         selectedCards.remove(at: selectedCards.index(of: cardTouched)!)
                     }
                     
-                    status = matchStatus.stillChoosing
+                    if isAIEnabled {
+                        status = .machineChoosing
+                    }
+                    else {
+                        status = .stillChoosing
+                    }
                 }
                 else {
                     
@@ -187,7 +215,14 @@ class SetModel{
                             drawThreeCards()
                         }
                         selectedCards = [Card]()
-                        status = matchStatus.stillChoosing
+                        
+                        if isAIEnabled {
+                            status = .machineChoosing
+                        }
+                        else {
+                            status = .stillChoosing
+                        }
+                        
                         
                     }
                     
@@ -223,6 +258,11 @@ class SetModel{
     }
     
     func isMatchAvailable() -> Bool {
+        // If cards available in remaining deck then there is the possibility of a match
+        if remainingDeck.count > 0 {
+            return true
+        }
+        
         // Are there any remaining cards in displayedDeck that can match. If not, indicate to player that game over
         let (_, matchAvailable) = findMatchInDisplayedDeck()
 
