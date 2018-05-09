@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         updateViewFromModel()
         currentNumCardsOnScreen = initialNumCardsOnScreen
         drawCards.isEnabled = true
-        drawCards.setTitle("Draw 3 Cards", for: UIControlState.normal)
+        drawCards.setTitle("Submit", for: UIControlState.normal)
         aiSwitch.setOn(false, animated: true)
         hardMode.setOn(false, animated: true)
     }
@@ -197,9 +197,8 @@ class ViewController: UIViewController {
         /* if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {
             setGame?.drawThreeCards()
             updateViewFromModel()
-        }*/
+        } */
         
-        // Use as simple submit button instead
         setGame?.drawThreeCards()
         updateViewFromModel()
         

@@ -26,7 +26,7 @@ class SetModel{
     private var almostFoundTimer: Timer?
     private var almostFoundTimerSeconds = 10.0
     private var clearMachineMatchTimer: Timer?
-    private var clearMachineMatchTimerSeconds = 3.0
+    private var clearMachineMatchTimerSeconds = 2.0
     private var afterUserMatchTimer: Timer?
     private var afterUserMatchTimerSeconds = 5.0
     private var isAIEnabled = false
@@ -139,10 +139,10 @@ class SetModel{
     }
     
     private func machineMatch() {
-        status = .machineMatch
-        machineScore += 1
         var (foundMatch,isMatchAvailable) = findMatchInDisplayedDeck()
         if isMatchAvailable {
+            status = .machineMatch
+            machineScore += 1
             selectedCards = [foundMatch[0],foundMatch[1],foundMatch[2]]
             clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: clearMachineMatchTimerSeconds, repeats: false, block: {_ in self.clearMachineMatch()})
         }
@@ -152,6 +152,7 @@ class SetModel{
     }
     
     private func clearMachineMatch() {
+        status = .machineChoosing
         drawThreeCards()
         selectedCards = [Card]()
         if isMatchAvailable() {
@@ -198,10 +199,8 @@ class SetModel{
                         selectedCards.remove(at: selectedCards.index(of: cardTouched)!)
                     }
                     
-                    if isAIEnabled {
-                        status = .machineChoosing
-                    }
-                    else {
+                    if isAIEnabled  == false
+                    {
                         status = .stillChoosing
                     }
                 }
@@ -216,10 +215,8 @@ class SetModel{
                         }
                         selectedCards = [Card]()
                         
-                        if isAIEnabled {
-                            status = .machineChoosing
-                        }
-                        else {
+                        if isAIEnabled  == false
+                        {
                             status = .stillChoosing
                         }
                         
@@ -279,34 +276,36 @@ class SetModel{
     }
     
     func drawThreeCards() {
-        if selectedCards.count == 3 && checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) == true {
-            for card in selectedCards {
-                let displayIndex = displayedDeck.index(of: card)
-                let matchedCard = displayedDeck.remove(at: displayIndex!)
-                matchedCards.append(matchedCard)
-                if remainingDeck.count > 0 {
-                    let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
-                    displayedDeck.insert(cardToShow, at: displayIndex!)
+        
+        if status != .machineMatch {
+            if selectedCards.count == 3 && checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) == true {
+                for card in selectedCards {
+                    let displayIndex = displayedDeck.index(of: card)
+                    let matchedCard = displayedDeck.remove(at: displayIndex!)
+                    matchedCards.append(matchedCard)
+                    if remainingDeck.count > 0 {
+                        let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
+                        displayedDeck.insert(cardToShow, at: displayIndex!)
+                    }
                 }
-            }
-            selectedCards = [Card]()
-            
-            if isAIEnabled {
-                status = .machineChoosing
+                selectedCards = [Card]()
+                
+                if isAIEnabled {
+                    status = .machineChoosing
+                }
+                else {
+                    status = .stillChoosing
+                }
             }
             else {
-                status = .stillChoosing
-            }
-        }
-        else {
-            for _ in 1...3 {
-                if remainingDeck.count > 0 {
-                    let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
-                    displayedDeck.append(cardToShow)
+                for _ in 1...3 {
+                    if remainingDeck.count > 0 {
+                        let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
+                        displayedDeck.append(cardToShow)
+                    }
                 }
             }
         }
-
         _ = isMatchAvailable()
     }
     
