@@ -102,13 +102,17 @@ class SetModel{
         
         for card1 in displayedDeck {
             var remainingDeck1 = displayedDeck
-            remainingDeck1.remove(at: remainingDeck1.index(of: card1)!)
-            for card2 in remainingDeck1 {
-                var remainingDeck2 = remainingDeck1
-                remainingDeck2.remove(at: remainingDeck2.index(of: card2)!)
-                for card3 in remainingDeck2 {
-                    if checkForMatch(card1: card1, card2: card2, card3: card3) {
-                        return ([card1,card2,card3],true)
+            if remainingDeck1.contains(card1) {
+                remainingDeck1.remove(at: remainingDeck1.index(of: card1)!)
+                for card2 in remainingDeck1 {
+                    var remainingDeck2 = remainingDeck1
+                    if remainingDeck2.contains(card2) {
+                        remainingDeck2.remove(at: remainingDeck2.index(of: card2)!)
+                        for card3 in remainingDeck2 {
+                            if checkForMatch(card1: card1, card2: card2, card3: card3) {
+                                return ([card1,card2,card3],true)
+                            }
+                        }
                     }
                 }
             }
@@ -196,7 +200,9 @@ class SetModel{
                         selectedCards = [Card]()
                     }
                     else {
-                        selectedCards.remove(at: selectedCards.index(of: cardTouched)!)
+                        if selectedCards.contains(cardTouched) {
+                            selectedCards.remove(at: selectedCards.index(of: cardTouched)!)
+                        }
                     }
                     
                     if isAIEnabled  == false
@@ -281,11 +287,15 @@ class SetModel{
             if selectedCards.count == 3 && checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) == true {
                 for card in selectedCards {
                     let displayIndex = displayedDeck.index(of: card)
-                    let matchedCard = displayedDeck.remove(at: displayIndex!)
-                    matchedCards.append(matchedCard)
+                    if displayIndex != nil {
+                        let matchedCard = displayedDeck.remove(at: displayIndex!)
+                        matchedCards.append(matchedCard)
+                    }
                     if remainingDeck.count > 0 {
                         let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
-                        displayedDeck.insert(cardToShow, at: displayIndex!)
+                        if displayIndex != nil {
+                            displayedDeck.insert(cardToShow, at: displayIndex!)
+                        }
                     }
                 }
                 selectedCards = [Card]()
