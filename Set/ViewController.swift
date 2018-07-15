@@ -11,8 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 
     private var setGame: SetModel?
-    private let initialNumCardsOnScreen = 24
-    private var currentNumCardsOnScreen = 24
+    private let initialNumCardsOnScreen = 12
+    private var currentNumCardsOnScreen = 12
     private let totalNumCardsOnScreen = 24
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -29,6 +29,15 @@ class ViewController: UIViewController {
     
     private var updateViewTimer: Timer?
     
+    @IBOutlet weak var setCardView: SetCardView! {
+        didSet {
+            //Add swipe down gesture recognizer to draw 3 cards
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(drawThreeCards))
+            swipe.direction = .down
+            setCardView.addGestureRecognizer(swipe)
+            
+        }
+    }
     
     @IBAction func enableAI(_ sender: UISwitch) {
         if sender.isOn {
@@ -73,9 +82,10 @@ class ViewController: UIViewController {
         
         if setGame?.displayedDeck != nil {
         
-            let displayedDeck = (setGame?.displayedDeck)!
+            setCardView.displayedDeck = (setGame?.displayedDeck)!
             
             // Update button titles with cards in display deck
+            /*
             var buttonIndex = 0
             for card in displayedDeck {
                 
@@ -142,8 +152,10 @@ class ViewController: UIViewController {
                 cardButtons[buttonIndex].backgroundColor = #colorLiteral(red: 0.2237586379, green: 0.8140939474, blue: 0.5857403874, alpha: 1)
                 buttonIndex += 1
             }
+            */
             
             // Update button border, color, rounding for selected cards
+            /*
             if setGame?.selectedCards != nil {
                 let selectedDeck = (setGame?.selectedCards)!
                 for card in selectedDeck {
@@ -160,8 +172,10 @@ class ViewController: UIViewController {
                     }
                 }
             }
+            */
             
             // Update match status label
+            /* Need to enable LATER
             if setGame?.status != nil {
                 switch (setGame?.status)! {
                 case .stillChoosing: matchLabel.text = " "
@@ -173,11 +187,16 @@ class ViewController: UIViewController {
                 case .machineMatch: matchLabel.text = "I matched! 🤑"
                 }
             }
+             */
             
             // Set number of remaining cards
+            /* Need to enable LATER
             if setGame?.remainingCards != nil {
                 remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
             }
+            */
+            
+            
             // Determine if Draw 3 cards button is enabled or disabled
             // Changed to just a simple submit button as Draw 3 cards button enabling/disabling unintuitive for the user
             /*
@@ -191,7 +210,7 @@ class ViewController: UIViewController {
             }
             */
             
-            
+            /* Need to enable LATER
             // Update the score label
             if aiSwitch.isOn {
                 scoreLabel.text = "You: \(setGame?.score ?? 0)  Me: \(setGame?.machineScore ?? 0)"
@@ -205,11 +224,12 @@ class ViewController: UIViewController {
             
             // Update number of cards on screen
             currentNumCardsOnScreen = (setGame?.displayedDeck.count)!
+            */
         }
     }
     
     
-    @IBAction func drawCards(_ sender: UIButton) {
+    @objc func drawThreeCards() {
         /* if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {
             setGame?.drawThreeCards()
             updateViewFromModel()
