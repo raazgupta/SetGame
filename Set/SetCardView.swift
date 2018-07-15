@@ -60,6 +60,24 @@ class SetCardView: UIView {
                             symbolColor.setFill()
                             ovalSymbol.fill()
                         }
+                    case .diamond:
+                        for symbolRect in symbolRects {
+                            // Create a UIBezierPath and draw diamond within rectangle
+                            let path = UIBezierPath()
+                            let rectLeftMidPoint = CGPoint(x: symbolRect.minX, y: symbolRect.midY)
+                            let rectTopMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.maxY)
+                            let rectRightMidPoint = CGPoint(x: symbolRect.maxX, y: symbolRect.midY)
+                            let rectBottomMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.minY)
+                            path.move(to: rectLeftMidPoint)
+                            path.addLine(to: rectTopMidPoint)
+                            path.addLine(to: rectRightMidPoint)
+                            path.addLine(to: rectBottomMidPoint)
+                            path.close()
+                            
+                            symbolColor.setFill()
+                            path.fill()
+                            
+                        }
                     default: break
                     }
                     
