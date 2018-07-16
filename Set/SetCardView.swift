@@ -37,6 +37,7 @@ class SetCardView: UIView {
                     let card = displayedDeck[displayedDeckIndex]
                     var symbolRects:[(CGRect)] = []
                     var symbolColor: UIColor
+                    var symbols:[(UIBezierPath)] = []
                     
                     switch card.number {
                     case .one:
@@ -60,8 +61,7 @@ class SetCardView: UIView {
                     case .oval:
                         for symbolRect in symbolRects {
                             let ovalSymbol = UIBezierPath(roundedRect: symbolRect, cornerRadius: cornerRadius)
-                            symbolColor.setFill()
-                            ovalSymbol.fill()
+                            symbols.append(ovalSymbol)
                         }
                     case .diamond:
                         for symbolRect in symbolRects {
@@ -77,8 +77,7 @@ class SetCardView: UIView {
                             path.addLine(to: rectBottomMidPoint)
                             path.close()
                             
-                            symbolColor.setFill()
-                            path.fill()
+                            symbols.append(path)
                             
                         }
                     case .squiggle:
@@ -89,16 +88,68 @@ class SetCardView: UIView {
                             let rectLeftBottomPoint = CGPoint(x: symbolRect.minX, y: symbolRect.maxY)
                             let rectRightTopPoint = CGPoint(x:symbolRect.maxX, y:symbolRect.minY)
                             
-                            let rectTopBezierPoint = CGPoint(x: symbolRect.midX - (symbolRect.midX - symbolRect.minX)/2.0, y: symbolRect.minY - (symbolRect.maxY - symbolRect.minY)/2.0)
-                            let rectBottomBezierPoint = CGPoint(x:symbolRect.midX + (symbolRect.maxX - symbolRect.midX)/2.0, y: symbolRect.maxY + (symbolRect.maxY - symbolRect.minY)/2.0)
+                            let rectTopBezierPoint = CGPoint(x: symbolRect.midX - (symbolRect.midX - symbolRect.minX)/2.0, y: symbolRect.minY - (symbolRect.maxY - symbolRect.minY))
+                            let rectBottomBezierPoint = CGPoint(x:symbolRect.midX + (symbolRect.maxX - symbolRect.midX)/2.0, y: symbolRect.maxY + (symbolRect.maxY - symbolRect.minY))
                             
                             path.move(to: rectLeftBottomPoint)
                             path.addCurve(to: rectRightTopPoint, controlPoint1: rectTopBezierPoint, controlPoint2: rectBottomMidPoint)
                             path.addCurve(to: rectLeftBottomPoint, controlPoint1: rectBottomBezierPoint, controlPoint2: rectTopMidPoint)
                             
-                            symbolColor.setFill()
-                            path.fill()
+                            symbols.append(path)
                             
+                        }
+                    }
+                    
+                    switch card.shading {
+                    case .solid:
+                        for symbol in symbols {
+                            symbolColor.setFill()
+                            symbol.fill()
+                        }
+                    case .open:
+                        for symbol in symbols {
+                            symbolColor.setStroke()
+                            symbol.lineWidth = 2.0
+                            symbol.stroke()
+                        }
+                    case .striped:
+                        for symbol in symbols {
+                            symbolColor.setStroke()
+                            symbol.lineWidth = 2.0
+                            symbol.stroke()
+                            
+                            // Add striping to the shape
+                            if let context = UIGraphicsGetCurrentContext() {
+                                context.saveGState()
+                                
+                                symbol.addClip()
+                                
+                                // Get the bounding rectangle of the path and add vertical lines to it
+                                let boundingRect = symbol.bounds
+                                var currentX = boundingRect.midX
+                                var loops = CGFloat(0.0)
+                                let stripeDistance = CGFloat(5.0)
+                                while currentX < boundingRect.maxX {
+                                    
+                                    
+                                    var path = UIBezierPath()
+                                    path.move(to: CGPoint(x:currentX,y:boundingRect.minY))
+                                    path.addLine(to: CGPoint(x: currentX, y: boundingRect.maxY))
+                                    symbolColor.setStroke()
+                                    path.stroke()
+                                    
+                                    path = UIBezierPath()
+                                    path.move(to: CGPoint(x:currentX-(stripeDistance*2.0)*loops,y:boundingRect.minY))
+                                    path.addLine(to: CGPoint(x: currentX-(stripeDistance*2.0)*loops, y: boundingRect.maxY))
+                                    symbolColor.setStroke()
+                                    path.stroke()
+                                    
+                                    currentX = currentX + stripeDistance
+                                    loops += 1.0
+                                }
+                                
+                                context.restoreGState()
+                            }
                         }
                     }
                     
