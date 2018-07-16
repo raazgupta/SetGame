@@ -36,6 +36,9 @@ class ViewController: UIViewController {
             swipe.direction = .down
             setCardView.addGestureRecognizer(swipe)
             
+            //Add 2 finger rotation gesture recognizer to reshuffle and show new set of cards
+            let rotate = UIRotationGestureRecognizer(target: self, action: #selector(randomReshuffle(_:)))
+            setCardView.addGestureRecognizer(rotate)
         }
     }
     
@@ -249,6 +252,17 @@ class ViewController: UIViewController {
             }
         }
         
+    }
+    
+    @objc func randomReshuffle(_ sender: UIRotationGestureRecognizer) {
+        switch sender.state {
+        case .ended:
+            if setGame != nil {
+                setGame?.reshuffle()
+                updateViewFromModel()
+            }
+        default: break
+        }
     }
     
     @IBAction func tapCard(_ sender: UITapGestureRecognizer) {

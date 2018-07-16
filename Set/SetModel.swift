@@ -319,6 +319,21 @@ class SetModel{
         _ = isMatchAvailable()
     }
     
+    // Re-shuffle the displayed cards back in to the remaining deck and show new set of cards (number of cards same as before re-shuffle)
+    func reshuffle() {
+        
+        let displayedCardsCount = displayedDeck.count
+        for displayedCard in displayedDeck {
+            remainingDeck.append(displayedCard)
+        }
+        displayedDeck = []
+        for _ in 0..<displayedCardsCount {
+            let cardToShow = remainingDeck.remove(at: remainingDeck.count.arc4random)
+            displayedDeck.append(cardToShow)
+        }
+        
+    }
+    
     init(showCards: Int) {
         // Create deck of 81 cards
         for cardNumber in numbers {
