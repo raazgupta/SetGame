@@ -41,7 +41,10 @@ class SetCardView: UIView {
                     switch card.number {
                     case .one:
                         symbolRects = createRects(cardRect: insetRect, cardSize: cardSize, numOfRects: 1)
-                    default: break
+                    case .two:
+                        symbolRects = createRects(cardRect: insetRect, cardSize: cardSize, numOfRects: 2)
+                    case .three:
+                        symbolRects = createRects(cardRect: insetRect, cardSize: cardSize, numOfRects: 3)
                     }
                     
                     switch card.color {
@@ -120,7 +123,16 @@ class SetCardView: UIView {
         switch numOfRects {
         case 1:
             let rect = CGRect(origin: rectOrigin, size: CGSize(width: rectWidth, height: rectHeight))
-            rects.append(rect)
+            rects = [rect]
+        case 2:
+            let rect1 = CGRect(origin: CGPoint(x: rectOrigin.x, y: rectOrigin.y-rectHeight), size: CGSize(width: rectWidth, height: rectHeight))
+            let rect2 = CGRect(origin: CGPoint(x: rectOrigin.x, y: rectOrigin.y+rectHeight), size: CGSize(width: rectWidth, height: rectHeight))
+            rects = [rect1,rect2]
+        case 3:
+            let rect1 = CGRect(origin: rectOrigin, size: CGSize(width: rectWidth, height: rectHeight))
+            let rect2 = CGRect(origin: CGPoint(x: rectOrigin.x, y: rectOrigin.y - rectHeight*1.5), size: CGSize(width: rectWidth, height: rectHeight))
+            let rect3 = CGRect(origin: CGPoint(x: rectOrigin.x, y: rectOrigin.y + rectHeight*1.5), size: CGSize(width: rectWidth, height: rectHeight))
+            rects = [rect1,rect2,rect3]
         default: break
         }
         return rects
