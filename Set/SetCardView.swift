@@ -78,7 +78,25 @@ class SetCardView: UIView {
                             path.fill()
                             
                         }
-                    default: break
+                    case .squiggle:
+                        for symbolRect in symbolRects {
+                            let path = UIBezierPath()
+                            let rectBottomMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.maxY)
+                            let rectTopMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.minY)
+                            let rectLeftBottomPoint = CGPoint(x: symbolRect.minX, y: symbolRect.maxY)
+                            let rectRightTopPoint = CGPoint(x:symbolRect.maxX, y:symbolRect.minY)
+                            
+                            let rectTopBezierPoint = CGPoint(x: symbolRect.midX - (symbolRect.midX - symbolRect.minX)/2.0, y: symbolRect.minY - (symbolRect.maxY - symbolRect.minY)/2.0)
+                            let rectBottomBezierPoint = CGPoint(x:symbolRect.midX + (symbolRect.maxX - symbolRect.midX)/2.0, y: symbolRect.maxY + (symbolRect.maxY - symbolRect.minY)/2.0)
+                            
+                            path.move(to: rectLeftBottomPoint)
+                            path.addCurve(to: rectRightTopPoint, controlPoint1: rectTopBezierPoint, controlPoint2: rectBottomMidPoint)
+                            path.addCurve(to: rectLeftBottomPoint, controlPoint1: rectBottomBezierPoint, controlPoint2: rectTopMidPoint)
+                            
+                            symbolColor.setFill()
+                            path.fill()
+                            
+                        }
                     }
                     
                     
