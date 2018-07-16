@@ -84,6 +84,10 @@ class ViewController: UIViewController {
         
             setCardView.displayedDeck = (setGame?.displayedDeck)!
             
+            if setGame?.selectedCards != nil {
+                setCardView.selectedCards = (setGame?.selectedCards)!
+            }
+            
             // Update button titles with cards in display deck
             /*
             var buttonIndex = 0
@@ -242,6 +246,22 @@ class ViewController: UIViewController {
             }
         }
         
+    }
+    
+    @IBAction func tapCard(_ sender: UITapGestureRecognizer) {
+        switch sender.state {
+        case .ended:
+            let tapPoint = sender.location(in: setCardView)
+            
+            // Determine index of card that has tapPoint within it
+            let cardIndex = setCardView.cardsGrid.indexOfCellFrames(pointInFrame: tapPoint)
+            if cardIndex != -1 {
+                setGame?.touchCard(displayDeckIndex: cardIndex)
+                updateViewFromModel()
+            }
+        default:
+            break
+        }
     }
     
     @IBAction func touchCard(_ sender: UIButton) {

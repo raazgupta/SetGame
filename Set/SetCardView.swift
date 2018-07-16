@@ -11,11 +11,14 @@ import UIKit
 class SetCardView: UIView {
 
     var displayedDeck = [Card]() { didSet {setNeedsDisplay();setNeedsLayout()}}
+    var selectedCards = [Card]() { didSet {setNeedsDisplay();setNeedsLayout()}}
+    
+    var cardsGrid = Grid.init(layout: .aspectRatio(0.5))
     
     override func draw(_ rect: CGRect) {
         
         // Add grid layout to view to display inital num of cards
-        var cardsGrid = Grid.init(layout: .aspectRatio(0.5))
+        
         cardsGrid.frame = rect
         cardsGrid.cellCount = displayedDeck.count
         let cardSize = cardsGrid.cellSize
@@ -30,11 +33,21 @@ class SetCardView: UIView {
                     // create smaller rectangle with this information
                     //let singleSymbolRect = CGRect(origin: CGPoint(x: insetRect.midX, y: insetRect.midY), size: CGSize(width: cardSize.width*symbolWidthRatio, height: cardSize.height*symbolHeightRatio))
                     
+                    let card = displayedDeck[displayedDeckIndex]
+                    
                     let rectInFrame = UIBezierPath(roundedRect: insetRect, cornerRadius: cornerRadius)
                     #colorLiteral(red: 0.8591197133, green: 0.6999493241, blue: 0.3175812066, alpha: 1).setFill()
                     rectInFrame.fill()
+                    
+                    // Determine if card is selected and then draw border
+                    if selectedCards.contains(card) {
+                        UIColor.blue.setStroke()
+                        rectInFrame.lineWidth = 2.0
+                        rectInFrame.stroke()
+                    }
+                    
                     // For each card, draw the contents
-                    let card = displayedDeck[displayedDeckIndex]
+                    
                     var symbolRects:[(CGRect)] = []
                     var symbolColor: UIColor
                     var symbols:[(UIBezierPath)] = []

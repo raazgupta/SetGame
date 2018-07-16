@@ -97,6 +97,17 @@ struct Grid
     private var cellCountForAspectRatioLayout = 0 { didSet { recalculate() } }
     private var calculatedDimensions: (rowCount: Int, columnCount: Int) = (0, 0)
     
+    // Given a CGPoint, provide the index of the cellFrame that contains the point
+    func indexOfCellFrames(pointInFrame: CGPoint) -> Int {
+        
+        for rect in cellFrames {
+            if rect.contains(pointInFrame) {
+                return cellFrames.index(of: rect)!
+            }
+        }
+        return -1
+    }
+    
     private mutating func recalculate() {
         switch layout {
         case .fixedCellSize(let cellSize):
