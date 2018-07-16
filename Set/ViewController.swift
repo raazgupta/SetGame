@@ -12,10 +12,10 @@ class ViewController: UIViewController {
 
     private var setGame: SetModel?
     private let initialNumCardsOnScreen = 12
-    private var currentNumCardsOnScreen = 12
-    private let totalNumCardsOnScreen = 24
+    //private var currentNumCardsOnScreen = 12
+    //private let totalNumCardsOnScreen = 24
     
-    @IBOutlet var cardButtons: [UIButton]!
+    //@IBOutlet var cardButtons: [UIButton]!
     
     @IBOutlet weak var matchLabel: UILabel!
     
@@ -63,9 +63,9 @@ class ViewController: UIViewController {
         updateViewTimer?.invalidate()
         setGame = SetModel(showCards: initialNumCardsOnScreen)
         updateViewFromModel()
-        currentNumCardsOnScreen = initialNumCardsOnScreen
-        drawCards.isEnabled = true
-        drawCards.setTitle("Submit", for: UIControlState.normal)
+        //currentNumCardsOnScreen = initialNumCardsOnScreen
+        //drawCards.isEnabled = true
+        //drawCards.setTitle("Submit", for: UIControlState.normal)
         aiSwitch.setOn(false, animated: true)
         hardMode.setOn(false, animated: true)
         updateViewTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in self.updateViewFromModel()})
@@ -179,7 +179,7 @@ class ViewController: UIViewController {
             */
             
             // Update match status label
-            /* Need to enable LATER
+ 
             if setGame?.status != nil {
                 switch (setGame?.status)! {
                 case .stillChoosing: matchLabel.text = " "
@@ -188,17 +188,17 @@ class ViewController: UIViewController {
                 case .gameOver: matchLabel.text = "All Done! 👻"
                 case .machineChoosing: matchLabel.text = "I'm thinking 🧐"
                 case .almostFound: matchLabel.text = "Found Something 🤓"
-                case .machineMatch: matchLabel.text = "I matched! 🤑"
+                case .machineMatch: matchLabel.text = "I matched! 😇"
                 }
             }
-             */
+            
             
             // Set number of remaining cards
-            /* Need to enable LATER
+
             if setGame?.remainingCards != nil {
                 remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
             }
-            */
+            
             
             
             // Determine if Draw 3 cards button is enabled or disabled
@@ -214,8 +214,9 @@ class ViewController: UIViewController {
             }
             */
             
-            /* Need to enable LATER
+            
             // Update the score label
+
             if aiSwitch.isOn {
                 scoreLabel.text = "You: \(setGame?.score ?? 0)  Me: \(setGame?.machineScore ?? 0)"
             }
@@ -223,9 +224,11 @@ class ViewController: UIViewController {
                 scoreLabel.text = "Cards Matched: \(setGame?.score ?? 0)"
             }
             
+            
             // Check if match available and update game over state if no match available
             _ = setGame?.isMatchAvailable()
             
+            /*
             // Update number of cards on screen
             currentNumCardsOnScreen = (setGame?.displayedDeck.count)!
             */
@@ -240,7 +243,7 @@ class ViewController: UIViewController {
         } */
         
         if setGame != nil {
-            if currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())! {
+            if (setGame?.remainingCards)! > 0 || (setGame?.checkForMatchOnSelected())! {
                 setGame?.drawThreeCards()
                 updateViewFromModel()
             }
@@ -264,6 +267,7 @@ class ViewController: UIViewController {
         }
     }
     
+    /*
     @IBAction func touchCard(_ sender: UIButton) {
         if cardButtons.contains(sender){
             let buttonIndex = cardButtons.index(of: sender)
@@ -273,7 +277,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+    */
     
     
 }

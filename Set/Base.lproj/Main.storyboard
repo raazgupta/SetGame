@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,29 +15,92 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Set" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="redraw" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nhK-ta-Leh">
+                                <rect key="frame" x="16" y="20" width="343" height="31"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2tH-kD-trd">
+                                        <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="enableHardMode:" destination="BYZ-38-t0r" eventType="valueChanged" id="6gK-0n-Ixf"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOM-pI-kGJ">
+                                        <rect key="frame" x="57" y="0.0" width="229" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uDU-em-6rO">
+                                        <rect key="frame" x="294" y="0.0" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="enableAI:" destination="BYZ-38-t0r" eventType="valueChanged" id="8V3-3b-dpD"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="RjR-FW-eZJ"/>
+                                    <constraint firstItem="gOM-pI-kGJ" firstAttribute="centerX" secondItem="nhK-ta-Leh" secondAttribute="centerX" id="fS8-fg-Nz3"/>
+                                </constraints>
+                            </stackView>
                             <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="POv-hH-H1C" customClass="SetCardView" customModule="Set" customModuleProvider="target">
-                                <rect key="frame" x="16" y="20" width="343" height="627"/>
+                                <rect key="frame" x="26" y="67" width="323" height="443"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="E0p-sN-eb7" appends="YES" id="uUl-QL-1Xt"/>
                                 </connections>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remaining Cards: 69" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpM-97-wBU">
+                                <rect key="frame" x="96" y="526" width="182.5" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sb-k7-6RX">
+                                <rect key="frame" x="151" y="566" width="73" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yB-dW-NRj">
+                                <rect key="frame" x="139" y="606" width="97" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="New Game">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="newGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tU1-lj-PQJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.22375863790512085" green="0.8140939474105835" blue="0.58574038743972778" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="POv-hH-H1C" secondAttribute="bottom" constant="20" id="AYS-9Y-ttW"/>
-                            <constraint firstItem="POv-hH-H1C" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Qg1-wU-BHU"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="POv-hH-H1C" secondAttribute="trailing" constant="16" id="TnB-nb-R0T"/>
-                            <constraint firstItem="POv-hH-H1C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="fmY-Br-RQf"/>
+                            <constraint firstItem="fpM-97-wBU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0vG-aJ-VaK"/>
+                            <constraint firstItem="POv-hH-H1C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="3S6-o2-1p1"/>
+                            <constraint firstItem="fpM-97-wBU" firstAttribute="top" secondItem="POv-hH-H1C" secondAttribute="bottom" constant="16" id="8I1-1P-Gfe"/>
+                            <constraint firstItem="nhK-ta-Leh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9kZ-hG-Pg3"/>
+                            <constraint firstItem="POv-hH-H1C" firstAttribute="top" secondItem="nhK-ta-Leh" secondAttribute="bottom" constant="16" id="GWO-p4-Hd7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2yB-dW-NRj" secondAttribute="bottom" constant="25" id="Kz8-Fb-K4m"/>
+                            <constraint firstItem="2yB-dW-NRj" firstAttribute="top" secondItem="7Sb-k7-6RX" secondAttribute="bottom" constant="16" id="L93-a0-XcZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="POv-hH-H1C" secondAttribute="trailing" constant="26" id="XfY-RQ-Prf"/>
+                            <constraint firstItem="7Sb-k7-6RX" firstAttribute="top" secondItem="fpM-97-wBU" secondAttribute="bottom" constant="16" id="czL-I7-jiG"/>
+                            <constraint firstItem="7Sb-k7-6RX" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="dJQ-I2-Agn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nhK-ta-Leh" secondAttribute="trailing" constant="16" id="hSa-JN-U2Z"/>
+                            <constraint firstItem="nhK-ta-Leh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="n6N-2e-vGh"/>
+                            <constraint firstItem="2yB-dW-NRj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="z6m-KQ-rPO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="aiSwitch" destination="uDU-em-6rO" id="Pe9-hQ-vLg"/>
+                        <outlet property="hardMode" destination="2tH-kD-trd" id="NOs-XB-HrY"/>
+                        <outlet property="matchLabel" destination="gOM-pI-kGJ" id="M3i-Ad-NxZ"/>
+                        <outlet property="remainingCards" destination="fpM-97-wBU" id="O9v-d8-v3R"/>
+                        <outlet property="scoreLabel" destination="7Sb-k7-6RX" id="VOc-2V-tiS"/>
                         <outlet property="setCardView" destination="POv-hH-H1C" id="rYz-h6-mCe"/>
                     </connections>
                 </viewController>
