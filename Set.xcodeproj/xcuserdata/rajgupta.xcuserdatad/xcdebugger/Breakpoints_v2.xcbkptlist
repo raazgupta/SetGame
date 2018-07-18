@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.917189"
+            timestampString = "553553642.221987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.917654"
+            timestampString = "553553642.222959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.918012"
+            timestampString = "553553642.2233289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,55 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.918365"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "updateViewFromModel()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Set/ViewController.swift"
-            timestampString = "553466848.91871"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "updateViewFromModel()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Set/ViewController.swift"
-            timestampString = "553466848.91906"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "updateViewFromModel()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Set/ViewController.swift"
-            timestampString = "553466848.91941"
+            timestampString = "553553642.223694"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "116"
@@ -122,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.9197561"
+            timestampString = "553553642.224052"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.920103"
+            timestampString = "553553642.224404"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +106,59 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.920446"
+            timestampString = "553553642.224755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "updateViewFromModel()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Set/ViewController.swift"
+            timestampString = "553553642.225105"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "updateViewFromModel()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Set/ViewController.swift"
+            timestampString = "553553642.225455"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "updateViewFromModel()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Set/ViewController.swift"
+            timestampString = "553553642.225805"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
             landmarkName = "tapCard(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.920789"
+            timestampString = "553553642.226156"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
             <Locations>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.921132"
+            timestampString = "553553642.22649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
             <Locations>
@@ -266,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/SetModel.swift"
-            timestampString = "553466848.921479"
+            timestampString = "553553642.226809"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "76"
@@ -282,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/SetModel.swift"
-            timestampString = "553466848.921537"
+            timestampString = "553553642.227247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "191"
@@ -298,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/SetModel.swift"
-            timestampString = "553466848.921592"
+            timestampString = "553553642.2274981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "181"
@@ -314,7 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/SetCardView.swift"
-            timestampString = "553466848.921649"
+            timestampString = "553553642.227743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
@@ -330,7 +330,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/SetCardView.swift"
-            timestampString = "553466848.921706"
+            timestampString = "553553642.227934"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.921761"
+            timestampString = "553553642.227988"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "tapCard(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.922104"
+            timestampString = "553553642.228328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "drawThreeCards()"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.922424"
+            timestampString = "553553642.228628"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
             landmarkName = "drawThreeCards()"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.9227459"
+            timestampString = "553553642.2289259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
             landmarkName = "drawThreeCards()"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.923067"
+            timestampString = "553553642.2292221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
             landmarkName = "drawThreeCards()"
             landmarkType = "7">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Set/ViewController.swift"
-            timestampString = "553466848.9233871"
+            timestampString = "553553642.229517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "updateViewFromModel()"
             landmarkType = "7">
          </BreakpointContent>

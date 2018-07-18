@@ -78,6 +78,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         setGame = SetModel(showCards: initialNumCardsOnScreen)
         updateViewTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in self.updateViewFromModel()})
+        
+        // When the app goes to the background, invalidate the screen refresh timer
+        NotificationCenter.default.addObserver(self, selector: #selector(invalidateScreenRefresh), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+        
+        // When the app goes to foreground, start the screen refresh timer again
+        NotificationCenter.default.addObserver(self, selector: #selector(enableScreenRefresh), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
+        
+    }
+    
+    // invalidates the screen refresh timer when app enters background
+    @objc func invalidateScreenRefresh() {
+        updateViewTimer?.invalidate()
+    }
+    
+    // enable the screen refresh timer when app enters foreground
+    @objc func enableScreenRefresh() {
+        updateViewTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in self.updateViewFromModel()})
     }
     
     private func updateViewFromModel() {
