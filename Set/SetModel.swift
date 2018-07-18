@@ -12,6 +12,10 @@ enum matchStatus {
     case stillChoosing, noMatch, match, gameOver, machineChoosing, almostFound, machineMatch
 }
 
+enum multiplayerChoosing {
+    case player1, player2
+}
+
 class SetModel{
     
     private var remainingDeck = [Card]()
@@ -21,6 +25,8 @@ class SetModel{
     private(set) var status = matchStatus.stillChoosing
     private(set) var score = 0
     private(set) var machineScore = 0
+    private(set) var player1Score = 0
+    private(set) var player2Score = 0
     private var machineSearchingTimer: Timer?
     private var machineSearchTimerSeconds = 30.0
     private var almostFoundTimer: Timer?
@@ -31,6 +37,25 @@ class SetModel{
     private var afterUserMatchTimerSeconds = 5.0
     private var isAIEnabled = false
     var isHardModeEnabled = false
+    var isMultiPlayerEnabled = false
+    private var multiplayerChoosingTimer: Timer?
+    private var multiplayerChoosingTimerSeconds = 10.0
+    private(set) var playerNumber: multiplayerChoosing = .player1
+    
+    var multiplayerSecondsRemaining: Int? {
+        get {
+            if multiplayerChoosingTimer == nil {
+                return nil
+            }
+            else {
+                let timeRemaining = multiplayerChoosingTimer?.fireDate.timeIntervalSince(Date())
+                if timeRemaining != nil {
+                    return Int(timeRemaining!)
+                }
+                else { return nil }
+            }
+        }
+    }
     
     var remainingCards: Int {
         get {
@@ -236,8 +261,21 @@ class SetModel{
                     
                     if selectedCards.count == 3 {
                         if checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
+                            
+                            if isMultiPlayerEnabled == true {
+                                switch playerNumber {
+                                case .player1: player1Score += 1
+                                case .player2: player2Score += 1
+                                }
+                                multiplayerChoosingTimer?.invalidate()
+                                multiplayerChoosingTimer = nil
+                            }
+                            else {
+                                score += 1
+                            }
+                            
                             status = matchStatus.match
-                            score += 1
+                            
                             
                             if isAIEnabled {
                                 machineSearchingTimer?.invalidate()
@@ -358,6 +396,36 @@ class SetModel{
         
         
         
+    }
+    
+    // Additional functionality for multiplayer mode
+    
+    // One of the players presses their button
+    // Timer starts
+    // Player needs to match card within timer and score
+    func multiplayerButtonPress(playerNum: Int) {
+        switch playerNum {
+        case 1:
+            playerNumber = .player1
+        case 2:
+            playerNumber = .player2
+        default: break
+        }
+        multiplayerChoosingTimer = Timer.scheduledTimer(withTimeInterval: multiplayerChoosingTimerSeconds, repeats: false, block: {_ in self.checkMultiplayerTimeOut()})
+    }
+    
+    // If state is still choosing or no match then score penalty
+    private func checkMultiplayerTimeOut() {
+        if status == .noMatch || status == .stillChoosing {
+            switch playerNumber {
+            case .player1:
+                player1Score -= 1
+            case .player2:
+                player2Score -= 1
+            }
+        }
+        multiplayerChoosingTimer?.invalidate()
+        multiplayerChoosingTimer = nil
     }
     
 }

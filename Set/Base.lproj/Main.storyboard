@@ -19,35 +19,61 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nhK-ta-Leh">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nhK-ta-Leh">
                                 <rect key="frame" x="16" y="20" width="343" height="31"/>
                                 <subviews>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2tH-kD-trd">
-                                        <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
-                                        <connections>
-                                            <action selector="enableHardMode:" destination="BYZ-38-t0r" eventType="valueChanged" id="6gK-0n-Ixf"/>
-                                        </connections>
-                                    </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOM-pI-kGJ">
-                                        <rect key="frame" x="57" y="0.0" width="229" height="31"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AI" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igC-jJ-zoD">
+                                        <rect key="frame" x="0.0" y="0.0" width="50.5" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uDU-em-6rO">
-                                        <rect key="frame" x="294" y="0.0" width="51" height="31"/>
+                                        <rect key="frame" x="58.5" y="0.0" width="52.5" height="31"/>
                                         <connections>
                                             <action selector="enableAI:" destination="BYZ-38-t0r" eventType="valueChanged" id="8V3-3b-dpD"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUL-7q-bX8">
+                                        <rect key="frame" x="117" y="0.0" width="50.5" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2tH-kD-trd">
+                                        <rect key="frame" x="175.5" y="0.0" width="52.5" height="31"/>
+                                        <connections>
+                                            <action selector="enableHardMode:" destination="BYZ-38-t0r" eventType="valueChanged" id="6gK-0n-Ixf"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MP" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cg8-3k-cr8">
+                                        <rect key="frame" x="234" y="0.0" width="50.5" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gfD-Qh-yZH" userLabel="Multiplayer">
+                                        <rect key="frame" x="292.5" y="0.0" width="52.5" height="31"/>
+                                        <connections>
+                                            <action selector="enableMultiplayer:" destination="BYZ-38-t0r" eventType="valueChanged" id="bHO-Bg-USD"/>
                                         </connections>
                                     </switch>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="RjR-FW-eZJ"/>
-                                    <constraint firstItem="gOM-pI-kGJ" firstAttribute="centerX" secondItem="nhK-ta-Leh" secondAttribute="centerX" id="fS8-fg-Nz3"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOM-pI-kGJ">
+                                <rect key="frame" x="16" y="58" width="343" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="oyZ-QG-RG0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="POv-hH-H1C" customClass="SetCardView" customModule="Set" customModuleProvider="target">
-                                <rect key="frame" x="26" y="67" width="323" height="443"/>
+                                <rect key="frame" x="26" y="98" width="323" height="424"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -55,43 +81,80 @@
                                 </connections>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remaining Cards: 69" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpM-97-wBU">
-                                <rect key="frame" x="96" y="526" width="182.5" height="24"/>
+                                <rect key="frame" x="96.5" y="538" width="182.5" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sb-k7-6RX">
-                                <rect key="frame" x="151" y="566" width="73" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yB-dW-NRj">
-                                <rect key="frame" x="139" y="606" width="97" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="New Game">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="newGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tU1-lj-PQJ"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="7TR-yo-shl">
+                                <rect key="frame" x="16" y="574" width="343" height="24"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sb-k7-6RX">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vdA-Q1-hOb">
+                                <rect key="frame" x="16" y="606" width="343" height="36"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nps-Ex-d37" userLabel="Player1">
+                                        <rect key="frame" x="-16" y="0.0" width="0.0" height="36"/>
+                                        <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Player 1">
+                                            <color key="titleColor" red="0.17912014800000001" green="0.27223009320000002" blue="0.9704518124" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="player1Press:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uJV-kc-rVZ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yB-dW-NRj">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="New Game">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="newGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tU1-lj-PQJ"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hii-s5-faW" userLabel="Player 2">
+                                        <rect key="frame" x="-16" y="0.0" width="0.0" height="36"/>
+                                        <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Player 2">
+                                            <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="player2Press:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8gM-L3-pmu"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.22375863790512085" green="0.8140939474105835" blue="0.58574038743972778" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fpM-97-wBU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0vG-aJ-VaK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7TR-yo-shl" secondAttribute="trailing" constant="16" id="3JW-aL-Vf7"/>
                             <constraint firstItem="POv-hH-H1C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="3S6-o2-1p1"/>
+                            <constraint firstItem="gOM-pI-kGJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="7R5-mn-Nbb"/>
                             <constraint firstItem="fpM-97-wBU" firstAttribute="top" secondItem="POv-hH-H1C" secondAttribute="bottom" constant="16" id="8I1-1P-Gfe"/>
                             <constraint firstItem="nhK-ta-Leh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9kZ-hG-Pg3"/>
-                            <constraint firstItem="POv-hH-H1C" firstAttribute="top" secondItem="nhK-ta-Leh" secondAttribute="bottom" constant="16" id="GWO-p4-Hd7"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2yB-dW-NRj" secondAttribute="bottom" constant="25" id="Kz8-Fb-K4m"/>
-                            <constraint firstItem="2yB-dW-NRj" firstAttribute="top" secondItem="7Sb-k7-6RX" secondAttribute="bottom" constant="16" id="L93-a0-XcZ"/>
+                            <constraint firstItem="7TR-yo-shl" firstAttribute="top" secondItem="fpM-97-wBU" secondAttribute="bottom" constant="12" id="Fgh-fo-Vik"/>
+                            <constraint firstItem="POv-hH-H1C" firstAttribute="top" secondItem="gOM-pI-kGJ" secondAttribute="bottom" constant="8" id="Mmw-1V-Kxt"/>
+                            <constraint firstItem="vdA-Q1-hOb" firstAttribute="top" secondItem="7TR-yo-shl" secondAttribute="bottom" constant="8" id="R6Q-am-oeA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="POv-hH-H1C" secondAttribute="trailing" constant="26" id="XfY-RQ-Prf"/>
-                            <constraint firstItem="7Sb-k7-6RX" firstAttribute="top" secondItem="fpM-97-wBU" secondAttribute="bottom" constant="16" id="czL-I7-jiG"/>
-                            <constraint firstItem="7Sb-k7-6RX" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="dJQ-I2-Agn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vdA-Q1-hOb" secondAttribute="bottom" constant="25" id="eHZ-gJ-NMt"/>
+                            <constraint firstItem="7TR-yo-shl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="gwK-uO-fkn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nhK-ta-Leh" secondAttribute="trailing" constant="16" id="hSa-JN-U2Z"/>
+                            <constraint firstItem="vdA-Q1-hOb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="jvf-ts-Zw8"/>
                             <constraint firstItem="nhK-ta-Leh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="n6N-2e-vGh"/>
-                            <constraint firstItem="2yB-dW-NRj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="z6m-KQ-rPO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vdA-Q1-hOb" secondAttribute="trailing" constant="16" id="tyY-F4-tgx"/>
+                            <constraint firstItem="gOM-pI-kGJ" firstAttribute="top" secondItem="nhK-ta-Leh" secondAttribute="bottom" constant="7" id="vZc-TE-krW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gOM-pI-kGJ" secondAttribute="trailing" constant="16" id="zba-T1-Om4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -99,6 +162,9 @@
                         <outlet property="aiSwitch" destination="uDU-em-6rO" id="Pe9-hQ-vLg"/>
                         <outlet property="hardMode" destination="2tH-kD-trd" id="NOs-XB-HrY"/>
                         <outlet property="matchLabel" destination="gOM-pI-kGJ" id="M3i-Ad-NxZ"/>
+                        <outlet property="multiPlayerSwitch" destination="gfD-Qh-yZH" id="XXp-vu-GhS"/>
+                        <outlet property="player1Button" destination="nps-Ex-d37" id="eM1-PW-PS0"/>
+                        <outlet property="player2Button" destination="Hii-s5-faW" id="Rtd-oZ-1Z1"/>
                         <outlet property="remainingCards" destination="fpM-97-wBU" id="O9v-d8-v3R"/>
                         <outlet property="scoreLabel" destination="7Sb-k7-6RX" id="VOc-2V-tiS"/>
                         <outlet property="setCardView" destination="POv-hH-H1C" id="rYz-h6-mCe"/>

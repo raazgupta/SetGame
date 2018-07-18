@@ -27,6 +27,12 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var aiSwitch: UISwitch!
     
+    @IBOutlet weak var multiPlayerSwitch: UISwitch!
+    
+    @IBOutlet weak var player1Button: UIButton!
+    
+    @IBOutlet weak var player2Button: UIButton!
+    
     private var updateViewTimer: Timer?
     
     @IBOutlet weak var setCardView: SetCardView! {
@@ -61,6 +67,28 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func enableMultiplayer(_ sender: UISwitch) {
+        if sender.isOn {
+            setGame?.isMultiPlayerEnabled = true
+            player1Button.isHidden = false
+            player2Button.isHidden = false
+        }
+        else {
+            setGame?.isMultiPlayerEnabled = false
+            player1Button.isHidden = true
+            player2Button.isHidden = true
+        }
+    }
+    
+    @IBAction func player1Press(_ sender: UIButton) {
+        setGame?.multiplayerButtonPress(playerNum: 1)
+    }
+    
+    @IBAction func player2Press(_ sender: UIButton) {
+        setGame?.multiplayerButtonPress(playerNum: 2)
+    }
+    
+    
     
     @IBAction func newGame(_ sender: UIButton) {
         updateViewTimer?.invalidate()
@@ -71,6 +99,7 @@ class ViewController: UIViewController {
         //drawCards.setTitle("Submit", for: UIControlState.normal)
         aiSwitch.setOn(false, animated: true)
         hardMode.setOn(false, animated: true)
+        multiPlayerSwitch.setOn(false, animated: true)
         updateViewTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in self.updateViewFromModel()})
     }
     
@@ -202,7 +231,18 @@ class ViewController: UIViewController {
  
             if setGame?.status != nil {
                 switch (setGame?.status)! {
-                case .stillChoosing: matchLabel.text = " "
+                case .stillChoosing:
+                    if multiPlayerSwitch.isOn && setGame?.multiplayerSecondsRemaining != nil {
+                        var playerNumString = ""
+                        switch setGame!.playerNumber {
+                        case .player1: playerNumString = "Player 1"
+                        case .player2: playerNumString = "Player 2"
+                        }
+                            matchLabel.text = "\(playerNumString)  Choose: \(setGame?.multiplayerSecondsRemaining ?? 0)"
+                    }
+                    else {
+                        matchLabel.text = " "
+                    }
                 case .noMatch: matchLabel.text = "No Match 🧐"
                 case .match: matchLabel.text = "Match! 🤪"
                 case .gameOver: matchLabel.text = "All Done! 👻"
@@ -211,6 +251,8 @@ class ViewController: UIViewController {
                 case .machineMatch: matchLabel.text = "I matched! 😇"
                 }
             }
+            
+
             
             
             // Set number of remaining cards
@@ -239,6 +281,9 @@ class ViewController: UIViewController {
 
             if aiSwitch.isOn {
                 scoreLabel.text = "You: \(setGame?.score ?? 0)  Me: \(setGame?.machineScore ?? 0)"
+            }
+            else if multiPlayerSwitch.isOn {
+                scoreLabel.text = "Player1: \(setGame?.player1Score ?? 0)   Player2: \(setGame?.player2Score ?? 0)"
             }
             else {
                 scoreLabel.text = "Cards Matched: \(setGame?.score ?? 0)"
