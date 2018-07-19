@@ -13,7 +13,7 @@ enum matchStatus {
 }
 
 enum multiplayerChoosing {
-    case player1, player2
+    case player1, player2, none
 }
 
 class SetModel{
@@ -40,7 +40,7 @@ class SetModel{
     var isMultiPlayerEnabled = false
     private var multiplayerChoosingTimer: Timer?
     private var multiplayerChoosingTimerSeconds = 10.0
-    private(set) var playerNumber: multiplayerChoosing = .player1
+    private(set) var playerNumber: multiplayerChoosing = .none
     
     var multiplayerSecondsRemaining: Int? {
         get {
@@ -212,7 +212,7 @@ class SetModel{
     
     func touchCard(displayDeckIndex: Int) {
         
-        if status != .machineMatch {
+        if status != .machineMatch && ((isMultiPlayerEnabled == true && playerNumber != .none) || (isMultiPlayerEnabled == false)) {
             if displayDeckIndex < displayedDeck.count {
                 let cardTouched = displayedDeck[displayDeckIndex]
                 if selectedCards.contains(cardTouched) {
@@ -266,9 +266,11 @@ class SetModel{
                                 switch playerNumber {
                                 case .player1: player1Score += 1
                                 case .player2: player2Score += 1
+                                case .none: break
                                 }
                                 multiplayerChoosingTimer?.invalidate()
                                 multiplayerChoosingTimer = nil
+                                playerNumber = .none
                             }
                             else {
                                 score += 1
@@ -411,6 +413,10 @@ class SetModel{
             playerNumber = .player2
         default: break
         }
+        
+        multiplayerChoosingTimer?.invalidate()
+        multiplayerChoosingTimer = nil
+        
         multiplayerChoosingTimer = Timer.scheduledTimer(withTimeInterval: multiplayerChoosingTimerSeconds, repeats: false, block: {_ in self.checkMultiplayerTimeOut()})
     }
     
@@ -422,10 +428,15 @@ class SetModel{
                 player1Score -= 1
             case .player2:
                 player2Score -= 1
+            case .none:
+                break
             }
         }
         multiplayerChoosingTimer?.invalidate()
         multiplayerChoosingTimer = nil
+        playerNumber = .none
+        selectedCards = [Card]()
+        status = .stillChoosing
     }
     
 }

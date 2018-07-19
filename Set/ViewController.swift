@@ -81,10 +81,14 @@ class ViewController: UIViewController {
     }
     
     @IBAction func player1Press(_ sender: UIButton) {
+        player1Button.isEnabled = false
+        player2Button.isEnabled = false
         setGame?.multiplayerButtonPress(playerNum: 1)
     }
     
     @IBAction func player2Press(_ sender: UIButton) {
+        player1Button.isEnabled = false
+        player2Button.isEnabled = false
         setGame?.multiplayerButtonPress(playerNum: 2)
     }
     
@@ -100,6 +104,9 @@ class ViewController: UIViewController {
         aiSwitch.setOn(false, animated: true)
         hardMode.setOn(false, animated: true)
         multiPlayerSwitch.setOn(false, animated: true)
+        player1Button.isHidden = true
+        player2Button.isHidden = true
+        
         updateViewTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in self.updateViewFromModel()})
     }
     
@@ -237,8 +244,9 @@ class ViewController: UIViewController {
                         switch setGame!.playerNumber {
                         case .player1: playerNumString = "Player 1"
                         case .player2: playerNumString = "Player 2"
+                        case .none: break
                         }
-                            matchLabel.text = "\(playerNumString)  Choose: \(setGame?.multiplayerSecondsRemaining ?? 0)"
+                        matchLabel.text = "\(playerNumString)  Choose: \(setGame?.multiplayerSecondsRemaining ?? 0)"
                     }
                     else {
                         matchLabel.text = " "
@@ -289,6 +297,14 @@ class ViewController: UIViewController {
                 scoreLabel.text = "Cards Matched: \(setGame?.score ?? 0)"
             }
             
+            // In Multiplayer mode if no player is choosing cards then enable the player buttons
+            if setGame != nil {
+                if multiPlayerSwitch.isOn && setGame!.playerNumber == .none
+                {
+                        player1Button.isEnabled = true
+                        player2Button.isEnabled = true
+                }
+            }
             
             // Check if match available and update game over state if no match available
             _ = setGame?.isMatchAvailable()
