@@ -36,7 +36,7 @@ class SetCardView: UIView {
                     let card = displayedDeck[displayedDeckIndex]
                     
                     let rectInFrame = UIBezierPath(roundedRect: insetRect, cornerRadius: cornerRadius)
-                    #colorLiteral(red: 0.8591197133, green: 0.6999493241, blue: 0.3175812066, alpha: 1).setFill()
+                    #colorLiteral(red: 0.1490196078, green: 0.3294117647, blue: 0.4862745098, alpha: 1).setFill()
                     rectInFrame.fill()
                     
                     // Determine if card is selected and then draw border
@@ -63,11 +63,11 @@ class SetCardView: UIView {
                     
                     switch card.color {
                     case .green:
-                        symbolColor = UIColor.green
+                        symbolColor = #colorLiteral(red: 0.02352941176, green: 0.8392156863, blue: 0.6274509804, alpha: 1)
                     case .purple:
-                        symbolColor = UIColor.purple
+                        symbolColor = #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1)
                     case .red:
-                        symbolColor = UIColor.red
+                        symbolColor = #colorLiteral(red: 0.937254902, green: 0.2784313725, blue: 0.4352941176, alpha: 1)
                     }
                     
                     switch card.symbol {
