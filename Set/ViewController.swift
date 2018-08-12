@@ -45,6 +45,17 @@ class ViewController: UIViewController {
             //Add 2 finger rotation gesture recognizer to reshuffle and show new set of cards
             let rotate = UIRotationGestureRecognizer(target: self, action: #selector(randomReshuffle(_:)))
             setCardView.addGestureRecognizer(rotate)
+            
+            // Add swipe gesture recognizer for multiplayer
+            // Player 1 swipes left to choose
+            // Player 2 swipes right to choose
+            let player1swipe = UISwipeGestureRecognizer(target: self, action: #selector(player1ButtonPress))
+            player1swipe.direction = .left
+            setCardView.addGestureRecognizer(player1swipe)
+            let player2swipe = UISwipeGestureRecognizer(target: self, action: #selector(player2ButtonPress))
+            player2swipe.direction = .right
+            setCardView.addGestureRecognizer(player2swipe)
+            
         }
     }
     
@@ -70,16 +81,17 @@ class ViewController: UIViewController {
     @IBAction func enableMultiplayer(_ sender: UISwitch) {
         if sender.isOn {
             setGame?.isMultiPlayerEnabled = true
-            player1Button.isHidden = false
-            player2Button.isHidden = false
+            //player1Button.isHidden = false
+            //player2Button.isHidden = false
         }
         else {
             setGame?.isMultiPlayerEnabled = false
-            player1Button.isHidden = true
-            player2Button.isHidden = true
+            //player1Button.isHidden = true
+            //player2Button.isHidden = true
         }
     }
     
+    /*
     @IBAction func player1Press(_ sender: UIButton) {
         player1Button.isEnabled = false
         player2Button.isEnabled = false
@@ -91,7 +103,7 @@ class ViewController: UIViewController {
         player2Button.isEnabled = false
         setGame?.multiplayerButtonPress(playerNum: 2)
     }
-    
+    */
     
     
     @IBAction func newGame(_ sender: UIButton) {
@@ -104,8 +116,8 @@ class ViewController: UIViewController {
         aiSwitch.setOn(false, animated: true)
         hardMode.setOn(false, animated: true)
         multiPlayerSwitch.setOn(false, animated: true)
-        player1Button.isHidden = true
-        player2Button.isHidden = true
+        //player1Button.isHidden = true
+        //player2Button.isHidden = true
         
         updateViewTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in self.updateViewFromModel()})
     }
@@ -298,6 +310,7 @@ class ViewController: UIViewController {
             }
             
             // In Multiplayer mode if no player is choosing cards then enable the player buttons
+            /*
             if setGame != nil {
                 if multiPlayerSwitch.isOn && setGame!.playerNumber == .none
                 {
@@ -305,6 +318,7 @@ class ViewController: UIViewController {
                         player2Button.isEnabled = true
                 }
             }
+            */
             
             // Check if match available and update game over state if no match available
             _ = setGame?.isMatchAvailable()
@@ -330,6 +344,25 @@ class ViewController: UIViewController {
             }
         }
         
+    }
+    
+    @objc func player1ButtonPress() {
+        if setGame != nil {
+            if multiPlayerSwitch.isOn && setGame!.playerNumber == .none
+            {
+                setGame?.multiplayerButtonPress(playerNum: 1)
+            }
+        }
+        
+    }
+    
+    @objc func player2ButtonPress() {
+        if setGame != nil {
+            if multiPlayerSwitch.isOn && setGame!.playerNumber == .none
+            {
+                setGame?.multiplayerButtonPress(playerNum: 2)
+            }
+        }
     }
     
     @objc func randomReshuffle(_ sender: UIRotationGestureRecognizer) {

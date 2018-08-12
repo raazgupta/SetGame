@@ -41,8 +41,8 @@ class SetCardView: UIView {
                     
                     // Determine if card is selected and then draw border
                     if selectedCards.contains(card) {
-                        UIColor.blue.setStroke()
-                        rectInFrame.lineWidth = 2.0
+                        #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1).setStroke()
+                        rectInFrame.lineWidth = 4.0
                         rectInFrame.stroke()
                     }
                     
