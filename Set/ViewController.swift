@@ -10,6 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    private var singleCardViews = [SingleCardView]()
+    private var cardsGrid: Grid?
+    
+    private struct SizeRatio {
+        static let cornerRadiusToBoundsHeight: CGFloat = 0.01
+        static let cardInsetBy: CGFloat = 3.0
+        static let symbolSizeAsFractionOfCardSize: (CGFloat, CGFloat) = (0.25,0.25)
+    }
+    
     private var setGame: SetModel?
     private let initialNumCardsOnScreen = 12
     //private var currentNumCardsOnScreen = 12
@@ -109,6 +118,10 @@ class ViewController: UIViewController {
     @IBAction func newGame(_ sender: UIButton) {
         updateViewTimer?.invalidate()
         setGame = SetModel(showCards: initialNumCardsOnScreen)
+        for singleCardView in singleCardViews {
+            singleCardView.removeFromSuperview()
+        }
+        singleCardViews = [SingleCardView]()
         updateViewFromModel()
         //currentNumCardsOnScreen = initialNumCardsOnScreen
         //drawCards.isEnabled = true
@@ -133,6 +146,10 @@ class ViewController: UIViewController {
         // When the app goes to foreground, start the screen refresh timer again
         NotificationCenter.default.addObserver(self, selector: #selector(enableScreenRefresh), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
         
+        // Set the card grid frame depending on the size of the area available to display the cards
+        cardsGrid = Grid.init(layout: .aspectRatio(0.5), frame: setCardView.frame)
+        cardsGrid?.cellCount = initialNumCardsOnScreen
+        
     }
     
     // invalidates the screen refresh timer when app enters background
@@ -148,13 +165,73 @@ class ViewController: UIViewController {
     private func updateViewFromModel() {
         //assert(cardButtons.count>=(setGame?.displayedDeck.count)!, "Number of card buttons does not match number of cards to display in model")
         
-        if setGame?.displayedDeck != nil {
+        if let displayedDeck = setGame?.displayedDeck {
         
-            setCardView.displayedDeck = (setGame?.displayedDeck)!
+            // Update cards grid to reflect the latest frame and number of cards to display
+            cardsGrid?.frame = setCardView.bounds
+            cardsGrid?.cellCount = displayedDeck.count
             
+            // Check if number of Single Card Views matches the size of the deck to display
+            // If Single Cards Views less than size of deck to display, then add more Single Card Views
+            // Else Remove Single Card Views to match size of deck to display
+            
+            if singleCardViews.count > displayedDeck.count {
+                let startIndex = displayedDeck.count
+                let endIndex = singleCardViews.count - 1
+                for _ in startIndex...endIndex {
+                    let lastView = singleCardViews.removeLast()
+                    lastView.removeFromSuperview()
+                }
+            }
+            
+            if displayedDeck.count > 0 {
+                for displayedDeckIndex in 0...(displayedDeck.count-1){
+                    if let cardRect = cardsGrid![displayedDeckIndex]{
+                        let insetRect = cardRect.insetBy(dx: SizeRatio.cardInsetBy, dy: SizeRatio.cardInsetBy)
+                        let card = displayedDeck[displayedDeckIndex]
+                        if singleCardViews.count <= displayedDeckIndex {
+                            // Append a card
+                            let singleCardView = SingleCardView(frame: insetRect)
+                            singleCardView.card = card
+                            singleCardViews.append(singleCardView)
+                            setCardView.addSubview(singleCardView)
+                        }
+                        else {
+                            singleCardViews[displayedDeckIndex].card = card
+                            
+                            // Animating the change in frame of existing card on screen
+                            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
+                                self.singleCardViews[displayedDeckIndex].frame = insetRect
+                                self.singleCardViews[displayedDeckIndex].layoutIfNeeded()
+                            })
+                            
+                            
+                        }
+                    }
+                }
+            }
+            
+            // Only show border for selected cards
+            if let selectedCards = setGame?.selectedCards {
+                for card in displayedDeck {
+                    let indexOfCard = displayedDeck.index(of: card)
+                    if selectedCards.contains(card) {
+                        singleCardViews[indexOfCard!].isSelected = true
+                    }
+                    else {
+                        singleCardViews[indexOfCard!].isSelected = false
+                    }
+                }
+            }
+            
+            //setCardView.displayedDeck = (setGame?.displayedDeck)!
+            
+            
+            /*
             if setGame?.selectedCards != nil {
                 setCardView.selectedCards = (setGame?.selectedCards)!
             }
+            */
             
             // Update button titles with cards in display deck
             /*
@@ -382,9 +459,9 @@ class ViewController: UIViewController {
             let tapPoint = sender.location(in: setCardView)
             
             // Determine index of card that has tapPoint within it
-            let cardIndex = setCardView.cardsGrid.indexOfCellFrames(pointInFrame: tapPoint)
-            if cardIndex != -1 {
-                setGame?.touchCard(displayDeckIndex: cardIndex)
+            let cardIndex = cardsGrid?.indexOfCellFrames(pointInFrame: tapPoint)
+            if cardIndex != nil && cardIndex != -1 {
+                setGame?.touchCard(displayDeckIndex: cardIndex!)
                 updateViewFromModel()
             }
         default:
