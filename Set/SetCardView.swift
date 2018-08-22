@@ -15,8 +15,11 @@ class SingleCardView: UIView {
     var isSelected = false {
         didSet {setNeedsDisplay(); setNeedsLayout()}
     }
+
     
     override func draw(_ rect: CGRect) {
+        
+        
         let rectInFrame = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
         #colorLiteral(red: 0.1490196078, green: 0.3294117647, blue: 0.4862745098, alpha: 1).setFill()
         rectInFrame.fill()

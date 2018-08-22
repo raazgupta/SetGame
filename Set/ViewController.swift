@@ -175,6 +175,7 @@ class ViewController: UIViewController {
             // If Single Cards Views less than size of deck to display, then add more Single Card Views
             // Else Remove Single Card Views to match size of deck to display
             
+            // If more card views than in display deck, make card view array match display deck size
             if singleCardViews.count > displayedDeck.count {
                 let startIndex = displayedDeck.count
                 let endIndex = singleCardViews.count - 1
@@ -184,6 +185,51 @@ class ViewController: UIViewController {
                 }
             }
             
+            // First re-arrange the existing set of card views that have a corresponding display deck
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
+                var singleCardViewIndex = 0
+                while singleCardViewIndex < self.singleCardViews.count {
+                    if let cardRect = self.cardsGrid![singleCardViewIndex] {
+                        let insetRect = cardRect.insetBy(dx: SizeRatio.cardInsetBy, dy: SizeRatio.cardInsetBy)
+                        let card = displayedDeck[singleCardViewIndex]
+                        self.singleCardViews[singleCardViewIndex].card = card
+                        self.singleCardViews[singleCardViewIndex].frame = insetRect
+                        self.singleCardViews[singleCardViewIndex].layoutIfNeeded()
+                    }
+                    singleCardViewIndex += 1
+                }
+            }, completion: {position in
+                // Append new card views upto the number of cards in display deck
+                if self.singleCardViews.count < displayedDeck.count {
+                    let startIndex = self.singleCardViews.count
+                    let endIndex = displayedDeck.count - 1
+                    for displayedDeckIndex in startIndex...endIndex {
+                        if let cardRect = self.cardsGrid![displayedDeckIndex] {
+                            let insetRect = cardRect.insetBy(dx: SizeRatio.cardInsetBy, dy: SizeRatio.cardInsetBy)
+                            let card = displayedDeck[displayedDeckIndex]
+                            let singleCardView = SingleCardView(frame: insetRect)
+                            singleCardView.card = card
+                            singleCardView.alpha = 0.0
+                            self.singleCardViews.append(singleCardView)
+                            self.setCardView.addSubview(singleCardView)
+                        }
+                    }
+                }
+                
+                // Animate the cards dealt by changing alpha to 1.0
+                if self.setGame?.status != .match && self.setGame?.status != .machineMatch {
+                    for singleCardView in self.singleCardViews {
+                        if singleCardView.alpha == 0.0 {
+                            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
+                                singleCardView.alpha = 1.0
+                                singleCardView.layoutIfNeeded()
+                            })
+                        }
+                    }
+                }
+            })
+            
+            /*
             if displayedDeck.count > 0 {
                 for displayedDeckIndex in 0...(displayedDeck.count-1){
                     if let cardRect = cardsGrid![displayedDeckIndex]{
@@ -193,6 +239,7 @@ class ViewController: UIViewController {
                             // Append a card
                             let singleCardView = SingleCardView(frame: insetRect)
                             singleCardView.card = card
+                            singleCardView.alpha = 0.0
                             singleCardViews.append(singleCardView)
                             setCardView.addSubview(singleCardView)
                         }
@@ -204,25 +251,41 @@ class ViewController: UIViewController {
                                 self.singleCardViews[displayedDeckIndex].frame = insetRect
                                 self.singleCardViews[displayedDeckIndex].layoutIfNeeded()
                             })
-                            
-                            
+                        }
+                    }
+                }
+            }
+            */
+            // Only show border for selected cards
+            
+            if let selectedCards = setGame?.selectedCards {
+                for card in displayedDeck {
+                    let indexOfCard = displayedDeck.index(of: card)
+                    if indexOfCard != nil && singleCardViews.count > indexOfCard! {
+                        if selectedCards.contains(card) {
+                            singleCardViews[indexOfCard!].isSelected = true
+                        }
+                        else {
+                            singleCardViews[indexOfCard!].isSelected = false
                         }
                     }
                 }
             }
             
-            // Only show border for selected cards
-            if let selectedCards = setGame?.selectedCards {
-                for card in displayedDeck {
-                    let indexOfCard = displayedDeck.index(of: card)
-                    if selectedCards.contains(card) {
-                        singleCardViews[indexOfCard!].isSelected = true
-                    }
-                    else {
-                        singleCardViews[indexOfCard!].isSelected = false
+            /*
+            // animate cards that are invisible to visible
+            // Check if status is not match or machine machine as in that case we want to keep cards invisible
+            if setGame?.status != .match && setGame?.status != .machineMatch {
+                for singleCardView in singleCardViews {
+                    if singleCardView.alpha == 0.0 {
+                        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: [], animations: {
+                            singleCardView.alpha = 1.0
+                            singleCardView.layoutIfNeeded()
+                        })
                     }
                 }
             }
+            */
             
             //setCardView.displayedDeck = (setGame?.displayedDeck)!
             
@@ -349,7 +412,20 @@ class ViewController: UIViewController {
                 }
             }
             
-
+            // When user machine or AI match is found, animate the alpha of matched cards to 0
+            if let status = setGame?.status {
+                if status == .match || status == .machineMatch {
+                    if let selectedCards = setGame?.selectedCards {
+                        for selectedCard in selectedCards {
+                            let displayIndex = setGame?.displayedDeck.index(of: selectedCard)
+                            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
+                                self.singleCardViews[displayIndex!].alpha = 0.0
+                            })
+                        }
+                    }
+                }
+            }
+            
             
             
             // Set number of remaining cards
