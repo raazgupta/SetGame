@@ -28,7 +28,12 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var matchLabel: UILabel!
     
-    @IBOutlet weak var remainingCards: UILabel!
+    //@IBOutlet weak var remainingCards: UILabel!
+    @IBOutlet weak var deckLabel: UILabel!
+
+    @IBOutlet weak var deckView: UIView!
+    @IBOutlet weak var matchedView: UIView!
+    @IBOutlet weak var appView: UIView!
     
     @IBOutlet weak var drawCards: UIButton!
     
@@ -193,12 +198,20 @@ class ViewController: UIViewController {
                         let insetRect = cardRect.insetBy(dx: SizeRatio.cardInsetBy, dy: SizeRatio.cardInsetBy)
                         let card = displayedDeck[singleCardViewIndex]
                         self.singleCardViews[singleCardViewIndex].card = card
-                        self.singleCardViews[singleCardViewIndex].frame = insetRect
+                        // Only allow frame change animation when single card view has CG Affine identity transform
+                        if self.singleCardViews[singleCardViewIndex].transform.isIdentity {
+                            self.singleCardViews[singleCardViewIndex].frame = insetRect
+                        }
                         self.singleCardViews[singleCardViewIndex].layoutIfNeeded()
                     }
                     singleCardViewIndex += 1
                 }
             }, completion: {position in
+                
+                // Append new card views upto the number of cards in display deck
+                self.appendCardView()
+                
+                /*
                 // Append new card views upto the number of cards in display deck
                 if self.singleCardViews.count < displayedDeck.count {
                     let startIndex = self.singleCardViews.count
@@ -212,10 +225,39 @@ class ViewController: UIViewController {
                             singleCardView.alpha = 0.0
                             self.singleCardViews.append(singleCardView)
                             self.setCardView.addSubview(singleCardView)
-                        }
+                            
+                            // Animate dealing of the cards
+                            // Move card from display location to deck
+                            //let deckViewFrame = self.appView.convert(self.deckView.frame, to: self.setCardView)
+                            //let deckViewFrame = self.appView.convert(self.deckView.frame, from: self.setCardView)
+                            //let deckViewFrame = self.setCardView.convert(self.deckView.frame, from: self.appView)
+                            //let deckViewFrame = self.setCardView.convert(self.deckView.frame, to: self.appView)
+                            let deckViewFrame = self.deckView.convert(self.deckView.frame, to: self.setCardView)
+                            
+                            singleCardView.frame = deckViewFrame
+                            
+                            // Rotate the card to match the deck alignment
+                            //singleCardView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+                            
+                            singleCardView.alpha = 1.0
+                            
+                            // Animate frame back to the original location one by one
+                            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 3, delay: 0, options: [], animations: {
+                                
+                                singleCardView.frame = insetRect
+                                //singleCardView.transform = CGAffineTransform.identity
+                                singleCardView.layoutIfNeeded()
+                                
+                            }, completion: { position in
+                                
+                            }
+                            )
+                            }
+ 
                     }
-                }
+                }*/
                 
+                /*
                 // Animate the cards dealt by changing alpha to 1.0
                 if self.setGame?.status != .match && self.setGame?.status != .machineMatch {
                     for singleCardView in self.singleCardViews {
@@ -227,6 +269,7 @@ class ViewController: UIViewController {
                         }
                     }
                 }
+ */
             })
             
             /*
@@ -429,9 +472,9 @@ class ViewController: UIViewController {
             
             
             // Set number of remaining cards
-
+            
             if setGame?.remainingCards != nil {
-                remainingCards.text = "Remaining Cards: \((setGame?.remainingCards)!)"
+                deckLabel.text = "Deck: \((setGame?.remainingCards)!)"
             }
             
             
@@ -483,6 +526,85 @@ class ViewController: UIViewController {
         }
     }
     
+    func appendCardView() {
+        // Append new card views upto the number of cards in display deck
+        if let displayedDeck = setGame?.displayedDeck {
+            if self.singleCardViews.count < displayedDeck.count {
+                
+                    if let cardRect = self.cardsGrid![singleCardViews.count] {
+                        let insetRect = cardRect.insetBy(dx: SizeRatio.cardInsetBy, dy: SizeRatio.cardInsetBy)
+                        let card = displayedDeck[singleCardViews.count]
+                        let singleCardView = SingleCardView(frame: insetRect)
+                        singleCardView.card = card
+                        singleCardView.alpha = 0.0
+                        self.singleCardViews.append(singleCardView)
+                        self.setCardView.addSubview(singleCardView)
+                        
+                        // Animate dealing of the cards
+                        // Move card from display location to deck
+                        //let deckViewFrame = self.appView.convert(self.deckView.frame, to: self.setCardView)
+                        //let deckViewFrame = self.appView.convert(self.deckView.frame, from: self.setCardView)
+                        //let deckViewFrame = self.setCardView.convert(self.deckView.frame, from: self.appView)
+                        //let deckViewFrame = self.setCardView.convert(self.deckView.frame, to: self.appView)
+                        
+                        //let deckViewFrame = self.deckView.convert(self.deckView.frame, to: self.setCardView)
+                        //singleCardView.frame = deckViewFrame
+                        
+                        // Find the center of deckView, as this is where we need to move the single card view
+                        let deckViewCenter = self.deckView.center
+                        // Convert the deck view center point coordinates to set card view coordinates
+                        let deckViewCenterInSetCardView = self.deckView.convert(deckViewCenter, to: self.setCardView)
+                        // Save the center location where the card is initially placed
+                        let insetRectCenter = singleCardView.center
+                        // Save the size and origin of the initial card
+                        let singleCardViewCopy = SingleCardView(frame: insetRect)
+                        //let insetRectSize = singleCardViewCopy.bounds.size
+                        //let insetRectOrigin = singleCardViewCopy.bounds.origin
+                        // move single card view center to deck view center
+                        singleCardView.center = deckViewCenterInSetCardView
+                        // set bounds of the card to match the deck bounds
+                        //singleCardView.bounds = self.deckView.bounds
+                        // Rotate the card to match the deck alignment
+                        singleCardView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+                        
+                        
+                        singleCardView.alpha = 1.0
+                        
+                        
+                        // Animate card back to the original location one by one
+                        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 1, delay: 0, options: [], animations: {
+                            //singleCardView.bounds = CGRect(origin: insetRectOrigin, size: insetRectSize)
+                            singleCardView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
+                            singleCardView.center = insetRectCenter
+                            
+                            //singleCardView.frame = insetRect
+                            //singleCardView.layoutIfNeeded()
+                        }, completion: { position in
+                            singleCardView.transform = CGAffineTransform.identity
+                            
+                            /*
+                            singleCardView.transform = CGAffineTransform.inverted(singleCardView.transform)()
+                            //singleCardView.frame = insetRect
+                            //singleCardView.transform = CGAffineTransform(rotationAngle: 0.0)
+                            */
+                            UIView.transition(with: singleCardView, duration: 0.6, options: [.transitionFlipFromLeft], animations: {
+                                singleCardView.isFaceUp = true
+                                singleCardView.layoutIfNeeded()
+                            })
+                            
+                            //singleCardView.isFaceUp = true
+                            //singleCardView.layoutIfNeeded()
+                            self.appendCardView()
+ 
+                        }
+                        )
+ 
+                    }
+                    
+                
+            }
+        }
+    }
     
     @objc func drawThreeCards() {
         /* if (setGame?.remainingCards)! > 0 && (currentNumCardsOnScreen < totalNumCardsOnScreen || (setGame?.checkForMatchOnSelected())!) && setGame?.status != .machineMatch {

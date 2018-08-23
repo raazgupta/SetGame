@@ -15,138 +15,146 @@ class SingleCardView: UIView {
     var isSelected = false {
         didSet {setNeedsDisplay(); setNeedsLayout()}
     }
-
+    var isFaceUp = false {
+        didSet {setNeedsDisplay(); setNeedsLayout()}
+    }
     
     override func draw(_ rect: CGRect) {
         
-        
-        let rectInFrame = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
-        #colorLiteral(red: 0.1490196078, green: 0.3294117647, blue: 0.4862745098, alpha: 1).setFill()
-        rectInFrame.fill()
-        
-        if isSelected == true {
-            #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1).setStroke()
-            rectInFrame.lineWidth = 7.0
-            rectInFrame.stroke()
+        if isFaceUp == false {
+            let rectInFrame = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+            #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1).setFill()
+            rectInFrame.fill()
         }
-        
-        // For each card, draw the contents
-        
-        var symbolRects:[(CGRect)] = []
-        var symbolColor: UIColor
-        var symbols:[(UIBezierPath)] = []
-        
-        if card != nil {
-            switch card!.number {
-            case .one:
-                symbolRects = createRects(cardRect: rect, cardSize: rect.size, numOfRects: 1)
-            case .two:
-                symbolRects = createRects(cardRect: rect, cardSize: rect.size, numOfRects: 2)
-            case .three:
-                symbolRects = createRects(cardRect: rect, cardSize: rect.size, numOfRects: 3)
+        else {
+            let rectInFrame = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+            #colorLiteral(red: 0.1490196078, green: 0.3294117647, blue: 0.4862745098, alpha: 1).setFill()
+            rectInFrame.fill()
+            
+            if isSelected == true {
+                #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1).setStroke()
+                rectInFrame.lineWidth = 7.0
+                rectInFrame.stroke()
             }
             
-            switch card!.color {
-            case .green:
-                symbolColor = #colorLiteral(red: 0.02352941176, green: 0.8392156863, blue: 0.6274509804, alpha: 1)
-            case .purple:
-                symbolColor = #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1)
-            case .red:
-                symbolColor = #colorLiteral(red: 0.937254902, green: 0.2784313725, blue: 0.4352941176, alpha: 1)
-            }
+            // For each card, draw the contents
             
-            switch card!.symbol {
-            case .oval:
-                for symbolRect in symbolRects {
-                    let ovalSymbol = UIBezierPath(roundedRect: symbolRect, cornerRadius: cornerRadius)
-                    symbols.append(ovalSymbol)
-                }
-            case .diamond:
-                for symbolRect in symbolRects {
-                    // Create a UIBezierPath and draw diamond within rectangle
-                    let path = UIBezierPath()
-                    let rectLeftMidPoint = CGPoint(x: symbolRect.minX, y: symbolRect.midY)
-                    let rectTopMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.maxY)
-                    let rectRightMidPoint = CGPoint(x: symbolRect.maxX, y: symbolRect.midY)
-                    let rectBottomMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.minY)
-                    path.move(to: rectLeftMidPoint)
-                    path.addLine(to: rectTopMidPoint)
-                    path.addLine(to: rectRightMidPoint)
-                    path.addLine(to: rectBottomMidPoint)
-                    path.close()
-                    
-                    symbols.append(path)
-                    
-                }
-            case .squiggle:
-                for symbolRect in symbolRects {
-                    let path = UIBezierPath()
-                    let rectBottomMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.maxY)
-                    let rectTopMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.minY)
-                    let rectLeftBottomPoint = CGPoint(x: symbolRect.minX, y: symbolRect.maxY)
-                    let rectRightTopPoint = CGPoint(x:symbolRect.maxX, y:symbolRect.minY)
-                    
-                    let rectTopBezierPoint = CGPoint(x: symbolRect.midX - (symbolRect.midX - symbolRect.minX)/2.0, y: symbolRect.minY - (symbolRect.maxY - symbolRect.minY))
-                    let rectBottomBezierPoint = CGPoint(x:symbolRect.midX + (symbolRect.maxX - symbolRect.midX)/2.0, y: symbolRect.maxY + (symbolRect.maxY - symbolRect.minY))
-                    
-                    path.move(to: rectLeftBottomPoint)
-                    path.addCurve(to: rectRightTopPoint, controlPoint1: rectTopBezierPoint, controlPoint2: rectBottomMidPoint)
-                    path.addCurve(to: rectLeftBottomPoint, controlPoint1: rectBottomBezierPoint, controlPoint2: rectTopMidPoint)
-                    
-                    symbols.append(path)
-                    
-                }
-            }
+            var symbolRects:[(CGRect)] = []
+            var symbolColor: UIColor
+            var symbols:[(UIBezierPath)] = []
             
-            switch card!.shading {
-            case .solid:
-                for symbol in symbols {
-                    symbolColor.setFill()
-                    symbol.fill()
+            if card != nil {
+                switch card!.number {
+                case .one:
+                    symbolRects = createRects(cardRect: rect, cardSize: rect.size, numOfRects: 1)
+                case .two:
+                    symbolRects = createRects(cardRect: rect, cardSize: rect.size, numOfRects: 2)
+                case .three:
+                    symbolRects = createRects(cardRect: rect, cardSize: rect.size, numOfRects: 3)
                 }
-            case .open:
-                for symbol in symbols {
-                    symbolColor.setStroke()
-                    symbol.lineWidth = 2.0
-                    symbol.stroke()
+                
+                switch card!.color {
+                case .green:
+                    symbolColor = #colorLiteral(red: 0.02352941176, green: 0.8392156863, blue: 0.6274509804, alpha: 1)
+                case .purple:
+                    symbolColor = #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1)
+                case .red:
+                    symbolColor = #colorLiteral(red: 0.937254902, green: 0.2784313725, blue: 0.4352941176, alpha: 1)
                 }
-            case .striped:
-                for symbol in symbols {
-                    symbolColor.setStroke()
-                    symbol.lineWidth = 2.0
-                    symbol.stroke()
-                    
-                    // Add striping to the shape
-                    if let context = UIGraphicsGetCurrentContext() {
-                        context.saveGState()
+                
+                switch card!.symbol {
+                case .oval:
+                    for symbolRect in symbolRects {
+                        let ovalSymbol = UIBezierPath(roundedRect: symbolRect, cornerRadius: cornerRadius)
+                        symbols.append(ovalSymbol)
+                    }
+                case .diamond:
+                    for symbolRect in symbolRects {
+                        // Create a UIBezierPath and draw diamond within rectangle
+                        let path = UIBezierPath()
+                        let rectLeftMidPoint = CGPoint(x: symbolRect.minX, y: symbolRect.midY)
+                        let rectTopMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.maxY)
+                        let rectRightMidPoint = CGPoint(x: symbolRect.maxX, y: symbolRect.midY)
+                        let rectBottomMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.minY)
+                        path.move(to: rectLeftMidPoint)
+                        path.addLine(to: rectTopMidPoint)
+                        path.addLine(to: rectRightMidPoint)
+                        path.addLine(to: rectBottomMidPoint)
+                        path.close()
                         
-                        symbol.addClip()
+                        symbols.append(path)
                         
-                        // Get the bounding rectangle of the path and add vertical lines to it
-                        let boundingRect = symbol.bounds
-                        var currentX = boundingRect.midX
-                        var loops = CGFloat(0.0)
-                        let stripeDistance = CGFloat(5.0)
-                        while currentX < boundingRect.maxX {
+                    }
+                case .squiggle:
+                    for symbolRect in symbolRects {
+                        let path = UIBezierPath()
+                        let rectBottomMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.maxY)
+                        let rectTopMidPoint = CGPoint(x: symbolRect.midX, y: symbolRect.minY)
+                        let rectLeftBottomPoint = CGPoint(x: symbolRect.minX, y: symbolRect.maxY)
+                        let rectRightTopPoint = CGPoint(x:symbolRect.maxX, y:symbolRect.minY)
+                        
+                        let rectTopBezierPoint = CGPoint(x: symbolRect.midX - (symbolRect.midX - symbolRect.minX)/2.0, y: symbolRect.minY - (symbolRect.maxY - symbolRect.minY))
+                        let rectBottomBezierPoint = CGPoint(x:symbolRect.midX + (symbolRect.maxX - symbolRect.midX)/2.0, y: symbolRect.maxY + (symbolRect.maxY - symbolRect.minY))
+                        
+                        path.move(to: rectLeftBottomPoint)
+                        path.addCurve(to: rectRightTopPoint, controlPoint1: rectTopBezierPoint, controlPoint2: rectBottomMidPoint)
+                        path.addCurve(to: rectLeftBottomPoint, controlPoint1: rectBottomBezierPoint, controlPoint2: rectTopMidPoint)
+                        
+                        symbols.append(path)
+                        
+                    }
+                }
+                
+                switch card!.shading {
+                case .solid:
+                    for symbol in symbols {
+                        symbolColor.setFill()
+                        symbol.fill()
+                    }
+                case .open:
+                    for symbol in symbols {
+                        symbolColor.setStroke()
+                        symbol.lineWidth = 2.0
+                        symbol.stroke()
+                    }
+                case .striped:
+                    for symbol in symbols {
+                        symbolColor.setStroke()
+                        symbol.lineWidth = 2.0
+                        symbol.stroke()
+                        
+                        // Add striping to the shape
+                        if let context = UIGraphicsGetCurrentContext() {
+                            context.saveGState()
                             
+                            symbol.addClip()
                             
-                            var path = UIBezierPath()
-                            path.move(to: CGPoint(x:currentX,y:boundingRect.minY))
-                            path.addLine(to: CGPoint(x: currentX, y: boundingRect.maxY))
-                            symbolColor.setStroke()
-                            path.stroke()
+                            // Get the bounding rectangle of the path and add vertical lines to it
+                            let boundingRect = symbol.bounds
+                            var currentX = boundingRect.midX
+                            var loops = CGFloat(0.0)
+                            let stripeDistance = CGFloat(5.0)
+                            while currentX < boundingRect.maxX {
+                                
+                                
+                                var path = UIBezierPath()
+                                path.move(to: CGPoint(x:currentX,y:boundingRect.minY))
+                                path.addLine(to: CGPoint(x: currentX, y: boundingRect.maxY))
+                                symbolColor.setStroke()
+                                path.stroke()
+                                
+                                path = UIBezierPath()
+                                path.move(to: CGPoint(x:currentX-(stripeDistance*2.0)*loops,y:boundingRect.minY))
+                                path.addLine(to: CGPoint(x: currentX-(stripeDistance*2.0)*loops, y: boundingRect.maxY))
+                                symbolColor.setStroke()
+                                path.stroke()
+                                
+                                currentX = currentX + stripeDistance
+                                loops += 1.0
+                            }
                             
-                            path = UIBezierPath()
-                            path.move(to: CGPoint(x:currentX-(stripeDistance*2.0)*loops,y:boundingRect.minY))
-                            path.addLine(to: CGPoint(x: currentX-(stripeDistance*2.0)*loops, y: boundingRect.maxY))
-                            symbolColor.setStroke()
-                            path.stroke()
-                            
-                            currentX = currentX + stripeDistance
-                            loops += 1.0
+                            context.restoreGState()
                         }
-                        
-                        context.restoreGState()
                     }
                 }
             }
@@ -183,6 +191,7 @@ class SingleCardView: UIView {
         }
         return rects
     }
+    
     
 }
 
