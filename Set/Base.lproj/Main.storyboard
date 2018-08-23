@@ -92,6 +92,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Deck: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="on0-kd-4kw">
                                                         <rect key="frame" x="0.0" y="-1" width="158" height="50"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <gestureRecognizers/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -102,6 +103,9 @@
                                                     <constraint firstAttribute="height" constant="50" id="2yt-QS-1bZ"/>
                                                     <constraint firstAttribute="width" constant="158" id="OIT-uN-F6c"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="cG1-Np-zw0" appends="YES" id="2Ss-mv-4He"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qHA-rO-rXp">
                                                 <rect key="frame" x="166" y="0.0" width="158" height="50"/>
@@ -236,6 +240,11 @@
                 <tapGestureRecognizer id="E0p-sN-eb7">
                     <connections>
                         <action selector="tapCard:" destination="BYZ-38-t0r" id="qHK-Kz-XRL"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="cG1-Np-zw0" userLabel="Deck Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="tapOnDeck:" destination="BYZ-38-t0r" id="cFz-rD-V8r"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
