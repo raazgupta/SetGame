@@ -28,13 +28,13 @@ class SetModel{
     private(set) var player1Score = 0
     private(set) var player2Score = 0
     private var machineSearchingTimer: Timer?
-    private var machineSearchTimerSeconds = 30.0
+    private var machineSearchTimerSeconds = 1.0
     private var almostFoundTimer: Timer?
-    private var almostFoundTimerSeconds = 15.0
+    private var almostFoundTimerSeconds = 1.0
     private var clearMachineMatchTimer: Timer?
     private var clearMachineMatchTimerSeconds = 1.0
     private var afterUserMatchTimer: Timer?
-    private var afterUserMatchTimerSeconds = 5.0
+    private var afterUserMatchTimerSeconds = 0.0
     private var isAIEnabled = false
     var isHardModeEnabled = false
     var isMultiPlayerEnabled = false
@@ -289,7 +289,8 @@ class SetModel{
                                 almostFoundTimer?.invalidate()
                                 clearMachineMatchTimer?.invalidate()
                                 
-                                afterUserMatchTimer = Timer.scheduledTimer(withTimeInterval: afterUserMatchTimerSeconds, repeats: false, block: {_ in self.enableAI()})
+                                enableAI()
+                                //afterUserMatchTimer = Timer.scheduledTimer(withTimeInterval: afterUserMatchTimerSeconds, repeats: false, block: {_ in self.enableAI()})
                             }
                             
                         }
@@ -347,7 +348,6 @@ class SetModel{
                 
                 if isAIEnabled {
                     status = .machineChoosing
-                    enableAI()
                 }
                 else {
                     status = .stillChoosing
@@ -362,6 +362,11 @@ class SetModel{
                 }
             }
         //}
+        
+        if isAIEnabled == true {
+            enableAI()
+        }
+        
         _ = isMatchAvailable()
     }
     

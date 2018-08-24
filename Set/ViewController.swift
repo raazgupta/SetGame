@@ -475,6 +475,7 @@ class ViewController: UIViewController {
             // Add matched cards to array and start the fly around animation. Make sure to not keep adding matched cards every second.
             if let status = setGame?.status {
                 if (status == .match || status == .machineMatch) {
+                    
                     if addMatchedCards == true {
                         if let selectedCards = setGame?.selectedCards {
                             
@@ -789,6 +790,7 @@ class ViewController: UIViewController {
         
         if setGame != nil {
             if (setGame?.remainingCards)! > 0 || (setGame?.checkForMatchOnSelected())! {
+                
                 setGame?.drawThreeCards()
                 updateViewFromModel()
             }
