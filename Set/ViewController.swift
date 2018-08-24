@@ -495,6 +495,19 @@ class ViewController: UIViewController {
                                 setCardView.addSubview(matchedCard)
                                 matchedCopy.append(matchedCard)
                                 
+                                /*
+                                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: [], animations: {
+                                    matchedCard.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                                }, completion: {position in
+                                    UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: [], animations: {
+                                        matchedCard.transform = CGAffineTransform.identity
+                                    }, completion: {position in
+                                            self.discardCardView()
+                                    })
+                                    
+                                })
+ */
+                                
                                 cardBehavior.addItem(matchedCard)
                                 //collissionBehavior.addItem(matchedCard)
                                 //itemBehavior.addItem(matchedCard)
