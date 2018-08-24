@@ -28,9 +28,9 @@ class SetModel{
     private(set) var player1Score = 0
     private(set) var player2Score = 0
     private var machineSearchingTimer: Timer?
-    private var machineSearchTimerSeconds = 1.0
+    private var machineSearchTimerSeconds = 30.0
     private var almostFoundTimer: Timer?
-    private var almostFoundTimerSeconds = 1.0
+    private var almostFoundTimerSeconds = 15.0
     private var clearMachineMatchTimer: Timer?
     private var clearMachineMatchTimerSeconds = 1.0
     private var afterUserMatchTimer: Timer?
@@ -158,6 +158,10 @@ class SetModel{
     // "AI" functionality
     func enableAI() {
         isAIEnabled = true
+        machineSearchingTimer?.invalidate()
+        almostFoundTimer?.invalidate()
+        clearMachineMatchTimer?.invalidate()
+        afterUserMatchTimer?.invalidate()
         status = .machineChoosing
         machineSearchingTimer = Timer.scheduledTimer(withTimeInterval: balancedFightTime(timeSeconds: machineSearchTimerSeconds), repeats: false, block: {_ in self.AIAlmostFound()})
     }
@@ -217,7 +221,7 @@ class SetModel{
     
     func touchCard(displayDeckIndex: Int) {
         
-        if status != .machineMatch && ((isMultiPlayerEnabled == true && playerNumber != .none) || (isMultiPlayerEnabled == false)) {
+        if ((isMultiPlayerEnabled == true && playerNumber != .none) || (isMultiPlayerEnabled == false)) {
             if displayDeckIndex < displayedDeck.count {
                 let cardTouched = displayedDeck[displayDeckIndex]
                 if selectedCards.contains(cardTouched) {
@@ -289,7 +293,7 @@ class SetModel{
                                 almostFoundTimer?.invalidate()
                                 clearMachineMatchTimer?.invalidate()
                                 
-                                enableAI()
+                                //enableAI()
                                 //afterUserMatchTimer = Timer.scheduledTimer(withTimeInterval: afterUserMatchTimerSeconds, repeats: false, block: {_ in self.enableAI()})
                             }
                             
