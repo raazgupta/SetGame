@@ -19,8 +19,8 @@ class CardBehavior: UIDynamicBehavior {
     lazy var itemBehavior: UIDynamicItemBehavior = {
         let behavior = UIDynamicItemBehavior()
         //behavior.allowsRotation = false
-        behavior.elasticity = 0.5
-        behavior.resistance = 0.3
+        behavior.elasticity = 1.0
+        behavior.resistance = 0
         return behavior
     }()
     
@@ -50,7 +50,7 @@ class CardBehavior: UIDynamicBehavior {
             push.angle = pointPairToBearingDegrees(startingPoint: itemCenter, endingPoint: referenceCenter)
         }*/
         push.angle = (2*CGFloat.pi).arc4random
-        push.magnitude = 2.0
+        push.magnitude = 3.0
         push.action = { [unowned push, weak self] in
             self?.removeChildBehavior(push)
         }

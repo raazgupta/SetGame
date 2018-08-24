@@ -210,8 +210,9 @@ class ViewController: UIViewController {
                         // Only allow frame change animation when single card view has CG Affine identity transform
                         if self.singleCardViews[singleCardViewIndex].transform.isIdentity {
                             self.singleCardViews[singleCardViewIndex].frame = insetRect
+                            self.singleCardViews[singleCardViewIndex].layoutIfNeeded()
                         }
-                        self.singleCardViews[singleCardViewIndex].layoutIfNeeded()
+                        
                     }
                     singleCardViewIndex += 1
                 }
@@ -528,6 +529,12 @@ class ViewController: UIViewController {
                     else {
                         // Matched cards added and are flying around, time to deal 3 new cards
                         drawThreeCards()
+                        
+                        /*
+                        if status == .machineMatch {
+                            setGame?.enableAI()
+                        }*/
+                        
                     }
                     
                 }

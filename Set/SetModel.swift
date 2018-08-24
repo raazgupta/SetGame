@@ -30,9 +30,9 @@ class SetModel{
     private var machineSearchingTimer: Timer?
     private var machineSearchTimerSeconds = 30.0
     private var almostFoundTimer: Timer?
-    private var almostFoundTimerSeconds = 10.0
+    private var almostFoundTimerSeconds = 15.0
     private var clearMachineMatchTimer: Timer?
-    private var clearMachineMatchTimerSeconds = 2.0
+    private var clearMachineMatchTimerSeconds = 1.0
     private var afterUserMatchTimer: Timer?
     private var afterUserMatchTimerSeconds = 5.0
     private var isAIEnabled = false
@@ -173,7 +173,12 @@ class SetModel{
             status = .machineMatch
             machineScore += 1
             selectedCards = [foundMatch[0],foundMatch[1],foundMatch[2]]
-            clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: clearMachineMatchTimerSeconds, repeats: false, block: {_ in self.clearMachineMatch()})
+            //if self.isMatchAvailable() {
+            //    enableAI()
+            //}
+            //drawThreeCards()
+            //selectedCards = [Card]()
+            //clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: clearMachineMatchTimerSeconds, repeats: false, block: {_ in self.clearMachineMatch()})
         }
         else {
             enableAI()
@@ -323,7 +328,7 @@ class SetModel{
     
     func drawThreeCards() {
         
-        if status != .machineMatch {
+        //if status != .machineMatch {
             if selectedCards.count == 3 && checkForMatch(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) == true {
                 for card in selectedCards {
                     let displayIndex = displayedDeck.index(of: card)
@@ -342,6 +347,7 @@ class SetModel{
                 
                 if isAIEnabled {
                     status = .machineChoosing
+                    enableAI()
                 }
                 else {
                     status = .stillChoosing
@@ -355,7 +361,7 @@ class SetModel{
                     }
                 }
             }
-        }
+        //}
         _ = isMatchAvailable()
     }
     
