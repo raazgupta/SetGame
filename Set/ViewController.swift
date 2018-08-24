@@ -513,7 +513,11 @@ class ViewController: UIViewController {
                                 //itemBehavior.addItem(matchedCard)
                                 
                                 // Start a timer to stop cards from flying around, remove the behaviors and flip to discard pile
-                                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {_ in self.discardCardView()})
+                                var flyTime = 4.0
+                                if status == .match {
+                                    flyTime = 2.0
+                                }
+                                Timer.scheduledTimer(withTimeInterval: flyTime, repeats: false, block: {_ in self.discardCardView()})
                                 
                                 
                                 /*

@@ -19,8 +19,8 @@ class CardBehavior: UIDynamicBehavior {
     lazy var itemBehavior: UIDynamicItemBehavior = {
         let behavior = UIDynamicItemBehavior()
         //behavior.allowsRotation = false
-        behavior.elasticity = 1.0
-        behavior.resistance = 0
+        behavior.elasticity = 0.5
+        behavior.resistance = 0.5
         return behavior
     }()
     
