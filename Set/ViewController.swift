@@ -10,6 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // Adding Dynamic Animator for flyaway animation
+    lazy var animator = UIDynamicAnimator(referenceView: setCardView)
+    
+    lazy var cardBehavior = CardBehavior(in: animator)
+    
+    // Array to store copy of matched selected cards for flyaway animation
+    var matchedCopy = [SingleCardView]()
+    var addMatchedCards = true
+    
     private var singleCardViews = [SingleCardView]()
     private var cardsGrid: Grid?
     
@@ -462,24 +471,69 @@ class ViewController: UIViewController {
                 }
             }
             
-            // When user machine or AI match is found, animate the alpha of matched cards to 0
+            // Add matched cards to array and start the fly around animation. Make sure to not keep adding matched cards every second.
             if let status = setGame?.status {
-                if status == .match || status == .machineMatch {
-                    if let selectedCards = setGame?.selectedCards {
-                        for selectedCard in selectedCards {
-                            let displayIndex = setGame?.displayedDeck.index(of: selectedCard)
+                if (status == .match || status == .machineMatch) {
+                    if addMatchedCards == true {
+                        if let selectedCards = setGame?.selectedCards {
                             
-                            singleCardViews[displayIndex!].alpha = 0.0
-                            singleCardViews[displayIndex!].isFaceUp = false
+                            for selectedCard in selectedCards {
+                                let displayIndex = setGame?.displayedDeck.index(of: selectedCard)
+                                
+                                singleCardViews[displayIndex!].alpha = 0.0
+                                singleCardViews[displayIndex!].isFaceUp = false
+                                
+                                // Append copied matched card to the copy array
+                                // As refresh runs every second, prevent adding unnecessary cards
+                                
+                                let matchedCard = SingleCardView(frame: singleCardViews[displayIndex!].frame)
+                                matchedCard.card = singleCardViews[displayIndex!].card
+                                matchedCard.isFaceUp = true
+                                matchedCard.alpha = 1.0
+                                setCardView.addSubview(matchedCard)
+                                matchedCopy.append(matchedCard)
+                                
+                                cardBehavior.addItem(matchedCard)
+                                //collissionBehavior.addItem(matchedCard)
+                                //itemBehavior.addItem(matchedCard)
+                                
+                                // Start a timer to stop cards from flying around, remove the behaviors and flip to discard pile
+                                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {_ in self.discardCardView()})
+                                
+                                
+                                /*
+                                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
+                                    self.singleCardViews[displayIndex!].alpha = 0.0
+                                    self.singleCardViews[displayIndex!].isFaceUp = false
+                                })
+    */
+                            }
                             
+                            // Go through copies of matched cards and add flyaway animation to them
                             /*
-                            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
-                                self.singleCardViews[displayIndex!].alpha = 0.0
-                                self.singleCardViews[displayIndex!].isFaceUp = false
-                            })
-*/
+                            for matchedCard in matchedCopy {
+                                collissionBehavior.addItem(matchedCard)
+                                let push = UIPushBehavior(items: [matchedCard], mode: .instantaneous)
+                                push.angle = (2*CGFloat.pi).arc4random
+                                push.magnitude = 1.0 + CGFloat(2.0).arc4random
+                                push.action = { [unowned push] in
+                                    push.dynamicAnimator?.removeBehavior(push)
+                                }
+                                animator.addBehavior(push)
+                            }
+                            */
                         }
+                        addMatchedCards = false
                     }
+                    else {
+                        // Matched cards added and are flying around, time to deal 3 new cards
+                        drawThreeCards()
+                    }
+                    
+                }
+                else {
+                    // When status changing to anythng other than matched, then allow adding matched cards again in the future when status changes to match
+                    addMatchedCards = true
                 }
             }
             
@@ -539,6 +593,8 @@ class ViewController: UIViewController {
             */
         }
     }
+    
+    
     
     func appendCardView() {
         // Append new card views upto the number of cards in display deck
@@ -627,6 +683,35 @@ class ViewController: UIViewController {
                     
                 
             }
+        }
+    }
+    
+    func discardCardView() {
+        if matchedCopy.count > 0 {
+            let matchedCard = matchedCopy.removeFirst()
+            cardBehavior.removeItem(matchedCard)
+            //let matchedViewCenter = matchedView.center
+            //let matchedViewFrame = matchedView.convert(matchedView.frame, to: setCardView)
+            let matchedViewCenter = matchedView.center
+            var matchedViewCenterInSet = matchedView.convert(matchedViewCenter, to: setCardView)
+            matchedViewCenterInSet = CGPoint(x: matchedViewCenterInSet.x - matchedView.frame.width, y: matchedViewCenterInSet.y)
+            //let matchedViewCenterInSetCardView = matchedView.convert(matchedViewCenter, from:appView)
+            
+            // First flip the cards to face down to make the animation look better
+            UIView.transition(with: matchedCard, duration: 0.6, options: [.transitionFlipFromRight], animations: {
+                matchedCard.isFaceUp = false
+            }, completion: {position in
+                // Next animate moving and rotating the card to the discard pile
+                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
+                    matchedCard.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+                    matchedCard.center = matchedViewCenterInSet
+                    //matchedCard.center = matchedViewCenterInSetCardView
+                }, completion: {position in
+                    // After matched card has arrived in the discard pile, remove it from the super view
+                    matchedCard.removeFromSuperview()
+                })
+            })
+            
         }
     }
     
@@ -773,5 +858,17 @@ class ViewController: UIViewController {
     */
     
     
+}
+
+extension CGFloat {
+    var arc4random: CGFloat {
+        if self > 0.0 {
+            return CGFloat(arc4random_uniform(UInt32(self)))
+        } else if self < 0.0 {
+            return -CGFloat(arc4random_uniform(UInt32(abs(self))))
+        } else {
+            return 0
+        }
+    }
 }
 

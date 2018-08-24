@@ -16,6 +16,7 @@
 		AD14C014209A8524001B8CF0 /* SetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD14C013209A8524001B8CF0 /* SetModel.swift */; };
 		AD5006F320FAC37200C4243D /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5006F220FAC37200C4243D /* Grid.swift */; };
 		AD5006F520FB1C3800C4243D /* SetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5006F420FB1C3800C4243D /* SetCardView.swift */; };
+		ADF4DBB3212F00C30010BC35 /* CardBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF4DBB2212F00C30010BC35 /* CardBehavior.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		AD14C013209A8524001B8CF0 /* SetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetModel.swift; sourceTree = "<group>"; };
 		AD5006F220FAC37200C4243D /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		AD5006F420FB1C3800C4243D /* SetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardView.swift; sourceTree = "<group>"; };
+		ADF4DBB2212F00C30010BC35 /* CardBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBehavior.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				AD14C000209A71B8001B8CF0 /* ViewController.swift */,
+				ADF4DBB2212F00C30010BC35 /* CardBehavior.swift */,
 				AD5006F420FB1C3800C4243D /* SetCardView.swift */,
 				AD5006F220FAC37200C4243D /* Grid.swift */,
 				AD14C002209A71B8001B8CF0 /* Main.storyboard */,
@@ -157,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD14C001209A71B8001B8CF0 /* ViewController.swift in Sources */,
+				ADF4DBB3212F00C30010BC35 /* CardBehavior.swift in Sources */,
 				AD5006F520FB1C3800C4243D /* SetCardView.swift in Sources */,
 				AD14C012209A83B1001B8CF0 /* Card.swift in Sources */,
 				AD14C014209A8524001B8CF0 /* SetModel.swift in Sources */,
