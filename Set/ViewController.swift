@@ -34,14 +34,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var matchLabel: UILabel!
     
     @IBOutlet weak var deckLabel: UILabel!
-
+    @IBOutlet weak var discardLabel: UILabel!
+    
     @IBOutlet weak var deckView: UIView!
     @IBOutlet weak var matchedView: UIView!
     @IBOutlet weak var appView: UIView!
     
     @IBOutlet weak var drawCards: UIButton!
     
-    @IBOutlet weak var scoreLabel: UILabel!
+    //@IBOutlet weak var scoreLabel: UILabel!
     
     @IBOutlet weak var aiSwitch: UISwitch!
     
@@ -312,13 +313,13 @@ class ViewController: UIViewController {
             // Update the score label
 
             if aiSwitch.isOn {
-                scoreLabel.text = "You: \(setGame?.score ?? 0)  Me: \(setGame?.machineScore ?? 0)"
+                discardLabel.text = "P1: \(setGame?.score ?? 0)  AI: \(setGame?.machineScore ?? 0)"
             }
             else if multiPlayerSwitch.isOn {
-                scoreLabel.text = "Player1: \(setGame?.player1Score ?? 0)   Player2: \(setGame?.player2Score ?? 0)"
+                discardLabel.text = "P1: \(setGame?.player1Score ?? 0)   P2: \(setGame?.player2Score ?? 0)"
             }
             else {
-                scoreLabel.text = "Cards Matched: \(setGame?.score ?? 0)"
+                discardLabel.text = "Matched: \(setGame?.score ?? 0)"
             }
             
             // Check if match available and update game over state if no match available

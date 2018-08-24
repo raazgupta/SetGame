@@ -73,7 +73,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="POv-hH-H1C" customClass="SetCardView" customModule="Set" customModuleProvider="target">
-                                <rect key="frame" x="26" y="98" width="323" height="401"/>
+                                <rect key="frame" x="26" y="98" width="323" height="433"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -81,7 +81,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SZT-dE-kab">
-                                <rect key="frame" x="26" y="515" width="323" height="43"/>
+                                <rect key="frame" x="26" y="547" width="323" height="43"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="aiY-wG-0ez">
                                         <rect key="frame" x="-1" y="-3.5" width="324" height="50"/>
@@ -110,7 +110,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qHA-rO-rXp">
                                                 <rect key="frame" x="166" y="0.0" width="158" height="50"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Matched" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t33-w6-Laf">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Matched:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t33-w6-Laf">
                                                         <rect key="frame" x="0.0" y="-1" width="158" height="50"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -138,17 +138,6 @@
                                     <constraint firstItem="aiY-wG-0ez" firstAttribute="centerY" secondItem="SZT-dE-kab" secondAttribute="centerY" id="uNY-ew-t8j"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="7TR-yo-shl">
-                                <rect key="frame" x="16" y="574" width="343" height="24"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sb-k7-6RX">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="24"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" red="0.14901960784313725" green="0.32941176470588235" blue="0.48627450980392156" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vdA-Q1-hOb">
                                 <rect key="frame" x="26" y="606" width="323" height="36"/>
                                 <subviews>
@@ -199,19 +188,16 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.9882352941176471" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7TR-yo-shl" secondAttribute="trailing" constant="16" id="3JW-aL-Vf7"/>
                             <constraint firstItem="POv-hH-H1C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="3S6-o2-1p1"/>
                             <constraint firstItem="gOM-pI-kGJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="7R5-mn-Nbb"/>
                             <constraint firstItem="nhK-ta-Leh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9kZ-hG-Pg3"/>
                             <constraint firstItem="POv-hH-H1C" firstAttribute="top" secondItem="gOM-pI-kGJ" secondAttribute="bottom" constant="8" id="Mmw-1V-Kxt"/>
                             <constraint firstItem="SZT-dE-kab" firstAttribute="top" secondItem="POv-hH-H1C" secondAttribute="bottom" constant="16" id="PPV-ja-wWq"/>
-                            <constraint firstItem="vdA-Q1-hOb" firstAttribute="top" secondItem="7TR-yo-shl" secondAttribute="bottom" constant="8" id="R6Q-am-oeA"/>
                             <constraint firstItem="SZT-dE-kab" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="SAj-9N-TSw"/>
-                            <constraint firstItem="7Sb-k7-6RX" firstAttribute="top" secondItem="SZT-dE-kab" secondAttribute="bottom" constant="16" id="Td0-Py-Ddj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="POv-hH-H1C" secondAttribute="trailing" constant="26" id="XfY-RQ-Prf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SZT-dE-kab" secondAttribute="trailing" constant="26" id="YnP-Cx-fmw"/>
+                            <constraint firstItem="vdA-Q1-hOb" firstAttribute="top" secondItem="SZT-dE-kab" secondAttribute="bottom" constant="16" id="da6-iK-dzj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vdA-Q1-hOb" secondAttribute="bottom" constant="25" id="eHZ-gJ-NMt"/>
-                            <constraint firstItem="7TR-yo-shl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="gwK-uO-fkn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nhK-ta-Leh" secondAttribute="trailing" constant="16" id="hSa-JN-U2Z"/>
                             <constraint firstItem="vdA-Q1-hOb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="jvf-ts-Zw8"/>
                             <constraint firstItem="nhK-ta-Leh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="n6N-2e-vGh"/>
@@ -226,13 +212,13 @@
                         <outlet property="appView" destination="8bC-Xf-vdC" id="jrh-hG-sPF"/>
                         <outlet property="deckLabel" destination="on0-kd-4kw" id="Czm-ip-j0b"/>
                         <outlet property="deckView" destination="E9v-pE-jIL" id="2wU-LK-GBt"/>
+                        <outlet property="discardLabel" destination="t33-w6-Laf" id="Ggl-AO-Qg4"/>
                         <outlet property="hardMode" destination="2tH-kD-trd" id="NOs-XB-HrY"/>
                         <outlet property="matchLabel" destination="gOM-pI-kGJ" id="M3i-Ad-NxZ"/>
                         <outlet property="matchedView" destination="qHA-rO-rXp" id="AU9-3G-ZgR"/>
                         <outlet property="multiPlayerSwitch" destination="gfD-Qh-yZH" id="XXp-vu-GhS"/>
                         <outlet property="player1Button" destination="nps-Ex-d37" id="eM1-PW-PS0"/>
                         <outlet property="player2Button" destination="Hii-s5-faW" id="Rtd-oZ-1Z1"/>
-                        <outlet property="scoreLabel" destination="7Sb-k7-6RX" id="VOc-2V-tiS"/>
                         <outlet property="setCardView" destination="POv-hH-H1C" id="rYz-h6-mCe"/>
                     </connections>
                 </viewController>
