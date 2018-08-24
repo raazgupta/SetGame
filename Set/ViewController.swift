@@ -169,6 +169,14 @@ class ViewController: UIViewController {
                 }
             }
             
+            // If there are 0 remaining cards in deck, then layout animation will not trigger. Need to set card alpha to 1, for smooth re-arrange
+            if (setGame?.remainingCards)! == 0 {
+                for singleCardView in singleCardViews {
+                    singleCardView.alpha = 1.0
+                    singleCardView.isFaceUp = true
+                }
+            }
+            
             // First re-arrange the existing set of card views that have a corresponding display deck
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.6, delay: 0, options: [], animations: {
                 var singleCardViewIndex = 0
@@ -190,7 +198,7 @@ class ViewController: UIViewController {
                 
                 // Check if card's alpha is 0 then do the layout card animation and display fresh card
                 for singleCardView in self.singleCardViews {
-                    if singleCardView.alpha == 0.0 && ((self.setGame?.status)! != .match && (self.setGame?.status)! != .machineMatch ) {
+                    if (self.setGame?.remainingCards)! > 0 && singleCardView.alpha == 0.0 && ((self.setGame?.status)! != .match && (self.setGame?.status)! != .machineMatch ) {
                         self.layoutCards(singleCardView: singleCardView)
                     }
                 }
@@ -260,6 +268,7 @@ class ViewController: UIViewController {
                                 let matchedCard = SingleCardView(frame: singleCardViews[displayIndex!].frame)
                                 matchedCard.card = singleCardViews[displayIndex!].card
                                 matchedCard.isFaceUp = true
+                                matchedCard.isMatched = true
                                 matchedCard.alpha = 1.0
                                 setCardView.addSubview(matchedCard)
                                 matchedCopy.append(matchedCard)
@@ -269,7 +278,7 @@ class ViewController: UIViewController {
                                 // Start a timer to stop cards from flying around, remove the behaviors and flip to discard pile
                                 var flyTime = 4.0
                                 if status == .match {
-                                    flyTime = 2.0
+                                    flyTime = 1.0
                                 }
                                 Timer.scheduledTimer(withTimeInterval: flyTime, repeats: false, block: {_ in self.discardCardView()})
                                 

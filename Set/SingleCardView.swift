@@ -15,9 +15,13 @@ class SingleCardView: UIView {
     var isSelected = false {
         didSet {setNeedsDisplay(); setNeedsLayout()}
     }
+    var isMatched = false {
+        didSet {setNeedsDisplay(); setNeedsLayout()}
+    }
     var isFaceUp = false {
         didSet {setNeedsDisplay(); setNeedsLayout()}
     }
+    
     
     override func draw(_ rect: CGRect) {
         
@@ -33,6 +37,12 @@ class SingleCardView: UIView {
             
             if isSelected == true {
                 #colorLiteral(red: 1, green: 0.8196078431, blue: 0.4, alpha: 1).setStroke()
+                rectInFrame.lineWidth = 7.0
+                rectInFrame.stroke()
+            }
+            
+            if isMatched == true {
+                #colorLiteral(red: 0.02352941176, green: 0.8392156863, blue: 0.6274509804, alpha: 1).setStroke()
                 rectInFrame.lineWidth = 7.0
                 rectInFrame.stroke()
             }

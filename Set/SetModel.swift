@@ -30,7 +30,7 @@ class SetModel{
     private var machineSearchingTimer: Timer?
     private var machineSearchTimerSeconds = 30.0
     private var almostFoundTimer: Timer?
-    private var almostFoundTimerSeconds = 15.0
+    private var almostFoundTimerSeconds = 10.0
     private var clearMachineMatchTimer: Timer?
     private var clearMachineMatchTimerSeconds = 1.0
     private var afterUserMatchTimer: Timer?
@@ -177,12 +177,6 @@ class SetModel{
             status = .machineMatch
             machineScore += 1
             selectedCards = [foundMatch[0],foundMatch[1],foundMatch[2]]
-            //if self.isMatchAvailable() {
-            //    enableAI()
-            //}
-            //drawThreeCards()
-            //selectedCards = [Card]()
-            //clearMachineMatchTimer = Timer.scheduledTimer(withTimeInterval: clearMachineMatchTimerSeconds, repeats: false, block: {_ in self.clearMachineMatch()})
         }
         else {
             enableAI()
@@ -221,7 +215,7 @@ class SetModel{
     
     func touchCard(displayDeckIndex: Int) {
         
-        if ((isMultiPlayerEnabled == true && playerNumber != .none) || (isMultiPlayerEnabled == false)) {
+        if status != .machineMatch && ((isMultiPlayerEnabled == true && playerNumber != .none) || (isMultiPlayerEnabled == false)) {
             if displayDeckIndex < displayedDeck.count {
                 let cardTouched = displayedDeck[displayDeckIndex]
                 if selectedCards.contains(cardTouched) {
@@ -293,8 +287,6 @@ class SetModel{
                                 almostFoundTimer?.invalidate()
                                 clearMachineMatchTimer?.invalidate()
                                 
-                                //enableAI()
-                                //afterUserMatchTimer = Timer.scheduledTimer(withTimeInterval: afterUserMatchTimerSeconds, repeats: false, block: {_ in self.enableAI()})
                             }
                             
                         }
